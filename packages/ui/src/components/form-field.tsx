@@ -1,7 +1,6 @@
 import { useFormContext } from "react-hook-form";
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -10,19 +9,30 @@ import {
 
 import { Input } from "@workspace/ui/components/input";
 
-export default function FormFieldProps() {
+interface Props {
+  name: string;
+  label: string;
+  placeholder: string;
+  type: string;
+}
+
+export default function FormFieldProps({
+  label,
+  placeholder,
+  type,
+  name,
+}: Props) {
   const form = useFormContext();
   return (
     <FormField
       control={form.control}
-      name="username"
+      name={name}
       render={({ field }) => (
-        <FormItem>
-          <FormLabel>Username</FormLabel>
+        <FormItem className="py-2">
+          <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input placeholder="shadcn" {...field} />
+            <Input placeholder={placeholder} type={type} {...field} />
           </FormControl>
-          <FormDescription>This is your public display name.</FormDescription>
           <FormMessage />
         </FormItem>
       )}
