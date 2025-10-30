@@ -13,18 +13,12 @@
   },
   "dependencies": {
     "@workspace/ui": "workspace:*",
+    "@workspace/features": "workspace:*",
     "lucide-react": "^0.475.0",
-    "next": "^15.4.5",
-    "next-themes": "^0.4.6",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "next-themes": "^0.4.6"
   },
   "devDependencies": {
-    "@types/node": "^20.19.9",
-    "@types/react": "^19.1.9",
-    "@types/react-dom": "^19.1.7",
     "@workspace/eslint-config": "workspace:^",
-    "@workspace/typescript-config": "workspace:*",
-    "typescript": "^5.9.2"
+    "@workspace/typescript-config": "workspace:*"
   }
 }
