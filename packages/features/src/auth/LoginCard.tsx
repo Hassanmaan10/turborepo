@@ -36,10 +36,23 @@ export default function LoginCard() {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE}/api/auth/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        }
+      );
+      if (res.ok) {
+        alert("Logged in!");
+        return;
+      }
+    } catch {
+      alert("Network error. Try again.");
+    }
   }
   return (
     <Card className="w-full max-w-sm">
