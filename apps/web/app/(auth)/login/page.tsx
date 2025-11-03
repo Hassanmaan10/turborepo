@@ -1,4 +1,4 @@
-import LoginCard from "@workspace/features/LoginCard";
+import LoginCard from "@workspace/features/auth/LoginCard";
 
 export default function LoginPage() {
   return (
