@@ -14,6 +14,7 @@ import { z } from "zod";
 import { Form } from "@workspace/ui/components/form";
 import FormFieldProps from "@workspace/ui/components/form-field";
 import FormSelectProps from "@workspace/ui/components/form-select";
+import { post } from "@workspace/ui/lib/https";
 
 const formSchema = z.object({
   // required: string
@@ -77,24 +78,11 @@ export default function SignUpCard() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE}/api/auth/signup`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
-        }
-      );
-      if (res.ok) {
-        alert("Signed up successfully!");
-        return;
-      }
-      // not OK (400/500)
-      const data = await res.json().catch(() => ({}));
-      alert(data?.message || "Signup failed.");
-    } catch (e) {
-      alert("Network error. Try again");
+    const res = await post("/api/auth/signup", values);
+    if (res.ok) {
+      alert("Signed up successfully!");
+    } else {
+      alert(res.error);
     }
   }
 
