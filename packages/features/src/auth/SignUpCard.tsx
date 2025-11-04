@@ -76,9 +76,12 @@ export default function SignUpCard() {
     },
   });
 
+  const pending = form.formState.isSubmitting;
+
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const res = await post("/api/auth/signup", values);
+
     if (res.ok) {
       alert("Signed up successfully!");
     } else {
@@ -87,63 +90,73 @@ export default function SignUpCard() {
   }
 
   return (
-    <Card className="w-full max-w-sm">
-      <CardHeader>
-        <CardTitle>Sign in</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {" "}
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FormFieldProps
-              name="name"
-              label="Name"
-              placeholder="Name"
-              type="text"
-            />
+    <>
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle>Sign in</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {" "}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <FormFieldProps
+                name="name"
+                label="Name"
+                placeholder="Name"
+                type="text"
+                disabled={pending}
+              />
 
-            <FormFieldProps
-              name="email"
-              label="Email"
-              placeholder="Email"
-              type="email"
-            />
+              <FormFieldProps
+                name="email"
+                label="Email"
+                placeholder="Email"
+                type="email"
+                disabled={pending}
+              />
 
-            <FormFieldProps
-              name="password"
-              label="Password"
-              placeholder="Password"
-              type="password"
-            />
+              <FormFieldProps
+                name="password"
+                label="Password"
+                placeholder="Password"
+                type="password"
+                disabled={pending}
+              />
 
-            <FormFieldProps
-              name="weight"
-              label="Weight"
-              placeholder="Weight"
-              type="number"
-            />
+              <FormFieldProps
+                name="weight"
+                label="Weight"
+                placeholder="Weight"
+                type="number"
+                disabled={pending}
+              />
 
-            <FormSelectProps
-              name="goal"
-              label="Goal"
-              options={[
-                { label: "Lose Weight", value: "Lose Weight" },
-                { label: "Gain Weight", value: "Gain Weight" },
-                { label: "Maintain Weight", value: "Maintain Weight" },
-              ]}
-            />
+              <FormSelectProps
+                name="goal"
+                label="Goal"
+                options={[
+                  { label: "Lose Weight", value: "Lose Weight" },
+                  { label: "Gain Weight", value: "Gain Weight" },
+                  { label: "Maintain Weight", value: "Maintain Weight" },
+                ]}
+                disabled={pending}
+              />
 
-            <FormFieldProps
-              name="age"
-              label="Age"
-              placeholder="Age"
-              type="number"
-            />
+              <FormFieldProps
+                name="age"
+                label="Age"
+                placeholder="Age"
+                type="number"
+                disabled={pending}
+              />
 
-            <Button type="submit">Submit</Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+              <Button type="submit" className="w-full" disabled={pending}>
+                {pending ? <>Submitting...</> : "Submit"}
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </>
   );
 }

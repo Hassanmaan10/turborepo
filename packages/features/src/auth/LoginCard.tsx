@@ -36,6 +36,8 @@ export default function LoginCard() {
     },
   });
 
+  const pending = form.formState.isSubmitting;
+
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const res = await post("/api/auth/login", values);
@@ -59,6 +61,7 @@ export default function LoginCard() {
               label="Email"
               placeholder="Email"
               type="email"
+              disabled={pending}
             />
 
             <FormFieldProps
@@ -66,9 +69,12 @@ export default function LoginCard() {
               label="Password"
               placeholder="Password"
               type="password"
+              disabled={pending}
             />
 
-            <Button type="submit">Submit</Button>
+            <Button type="submit" className="w-full" disabled={pending}>
+              {pending ? <>Submitting...</> : "Submit"}
+            </Button>
           </form>
         </Form>
       </CardContent>
