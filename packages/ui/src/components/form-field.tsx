@@ -14,6 +14,7 @@ interface Props {
   label: string;
   placeholder: string;
   type: string;
+  disabled?: boolean;
 }
 
 export default function FormFieldProps({
@@ -21,6 +22,7 @@ export default function FormFieldProps({
   placeholder,
   type,
   name,
+  disabled = false,
 }: Props) {
   const form = useFormContext();
   return (
@@ -31,7 +33,12 @@ export default function FormFieldProps({
         <FormItem className="py-2">
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input placeholder={placeholder} type={type} {...field} />
+            <Input
+              placeholder={placeholder}
+              type={type}
+              {...field}
+              disabled={disabled}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

@@ -21,17 +21,22 @@ interface Option {
   value: string;
 }
 
+interface Props {
+  name: string;
+  label: string;
+  options: Option[];
+  placeholder?: string;
+  disabled?: boolean;
+  className?: string;
+}
+
 export default function FormSelectProps({
   name,
   label,
   options,
   placeholder = "Select...",
-}: {
-  name: string;
-  label: string;
-  options: Option[];
-  placeholder?: string;
-}) {
+  disabled,
+}: Props) {
   const form = useFormContext();
 
   return (
@@ -42,7 +47,11 @@ export default function FormSelectProps({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select
+              value={field.value}
+              onValueChange={field.onChange}
+              disabled={disabled}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
