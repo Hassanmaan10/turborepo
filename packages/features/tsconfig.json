@@ -6,5 +6,5 @@
       "@workspace/features/*": ["./src/*"]
     }
   },
-  "include": ["src/auth"]
+  "include": ["src/auth", "src/dash"]
 }
