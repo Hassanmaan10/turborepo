@@ -14,6 +14,8 @@ import { z } from "zod";
 import { Form } from "@workspace/ui/components/form";
 import FormFieldProps from "@workspace/ui/components/form-field";
 import { post } from "@workspace/ui/lib/https";
+import { setTokenCookie } from "@workspace/ui/lib/token-cookie";
+import { useRouter } from "next/navigation.js";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -27,6 +29,7 @@ const formSchema = z.object({
 });
 
 export default function LoginCard() {
+  const router = useRouter();
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,11 +44,17 @@ export default function LoginCard() {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const res = await post("/api/auth/login", values);
+
+    console.log("LOGIN DATA:", res.data);
     if (res.ok) {
-      alert("Logged in!");
-    } else {
-      alert(res.error);
+      const token = (res.data as any)?.token;
+      if (typeof token === "string") {
+        setTokenCookie(token);
+      }
+      router.push("/dashboard");
+      return;
     }
+    alert(res.error);
   }
   return (
     <Card className="w-full max-w-sm">
