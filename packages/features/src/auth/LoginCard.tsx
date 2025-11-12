@@ -14,7 +14,7 @@ import { z } from "zod";
 import { Form } from "@workspace/ui/components/form";
 import FormFieldProps from "@workspace/ui/components/form-field";
 import { post } from "@workspace/ui/lib/https";
-import { setTokenCookie } from "@workspace/ui/lib/token-cookie";
+import setTokenCookie from "@workspace/ui/lib/token-cookie";
 import { useRouter } from "next/navigation.js";
 
 const formSchema = z.object({
