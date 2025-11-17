@@ -8,5 +8,5 @@
       "@workspace/features/*": ["./src/*"]
     }
   },
-  "include": ["src/auth", "src/dash"]
+  "include": ["src/auth", "src/dash", "src/api"]
 }

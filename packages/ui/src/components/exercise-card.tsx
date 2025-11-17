@@ -55,6 +55,7 @@ export default function ExerciseCard({
           <ExerciseContent label="Reps:" value={reps} />
           <ExerciseContent label="Rest:" value={rest} />
         </div>
+
         <ExerciseContent label="Muscles:" value={targetedMuscles} />
         <ExerciseContent label="Image:" value={image} />
         <ExerciseContent label="Youtube:" value={youtubeVideo} />
