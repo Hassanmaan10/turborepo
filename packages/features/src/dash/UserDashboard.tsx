@@ -1,47 +1,58 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getTokenCookie } from "@workspace/ui/lib/token-cookie";
 import ExerciseCard, { Props } from "@workspace/ui/components/exercise-card";
+import { CreateExerciseDialog } from "./CreateExerciseDialog";
+import { get } from "@workspace/ui/lib/https";
 
 export default function UserDashboard() {
   const [items, setItems] = useState<Props[]>([]);
 
-  useEffect(() => {
+  const fetchItems = useCallback(async () => {
     const token = getTokenCookie();
     if (!token) return;
+    const res = await get("/api/exercise", { token });
 
-    fetch("https://fitupapi-942q.onrender.com/api/exercise", {
-      headers: { authorization: `Bearer ${token}` },
-    })
-      .then((r) => r.json().catch(() => null)) // <- PARSE: turns the HTTP body into a JS object
-      .then((json) => {
-        setItems(Array.isArray(json?.data) ? json.data : []);
-      }) //check if json.data exists and its an array
-      .catch(() => ({}));
+    if (res.ok) {
+      // assuming backend response is { data: [...] }
+      const data = res.data;
+      setItems(Array.isArray(data?.data) ? data.data : []);
+    } else {
+      // optional: handle error, show toast, etc.
+      console.error(res.error);
+      setItems([]);
+    }
   }, []);
 
-  // later card
-  if (!items.length) return <div className="p-4">No exercise yet.</div>;
+  useEffect(() => {
+    fetchItems();
+  }, [fetchItems]);
 
   return (
-    <main className="p-4 space-y-6">
-      {items.map((ex, i) => (
-        <ExerciseCard
-          key={i}
-          title={ex.title}
-          description={ex.description}
-          category={ex.category}
-          duration={ex.duration}
-          intensity={ex.intensity}
-          sets={ex.sets}
-          reps={ex.reps}
-          rest={ex.rest}
-          image={ex.image}
-          youtubeVideo={ex.youtubeVideo}
-          targetedMuscles={ex.targetedMuscles}
-        />
-      ))}
+    <main className="p-4">
+      <div className="mb-4 flex">
+        <div className="flex-1" /> {/* spacer pushes next item to the right */}
+        <CreateExerciseDialog onCreated={fetchItems} />
+      </div>
+      <div className="flex flex-row gap-2">
+        {items.map((ex, i) => (
+          <ExerciseCard
+            key={i}
+            title={ex.title}
+            description={ex.description}
+            category={ex.category}
+            duration={ex.duration}
+            intensity={ex.intensity}
+            sets={ex.sets}
+            reps={ex.reps}
+            rest={ex.rest}
+            image={ex.image}
+            youtubeVideo={ex.youtubeVideo}
+            targetedMuscles={ex.targetedMuscles}
+          />
+        ))}
+      </div>
     </main>
   );
 }
