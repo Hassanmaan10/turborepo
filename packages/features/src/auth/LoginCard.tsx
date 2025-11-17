@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "@workspace/ui/components/form";
 import FormFieldProps from "@workspace/ui/components/form-field";
-import { post } from "@workspace/ui/lib/https";
+import { post } from "@workspace/features/api/https";
 import setTokenCookie from "@workspace/ui/lib/token-cookie";
 import { useRouter } from "next/navigation.js";
 

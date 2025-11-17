@@ -6,6 +6,10 @@
       "@workspace/ui/*": ["./src/*"]
     }
   },
-  "include": ["."],
+  "include": [
+    ".",
+    "../features/src/api/create-exercise.ts",
+    "../features/src/api/https.ts"
+  ],
   "exclude": ["node_modules", "dist"]
 }

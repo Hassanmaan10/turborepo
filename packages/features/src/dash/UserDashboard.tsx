@@ -1,28 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { getTokenCookie } from "@workspace/ui/lib/token-cookie";
 import ExerciseCard, { Props } from "@workspace/ui/components/exercise-card";
 import { CreateExerciseDialog } from "./CreateExerciseDialog";
-import { get } from "@workspace/ui/lib/https";
+import { getExercises } from "../api/get-exercise";
 
 export default function UserDashboard() {
   const [items, setItems] = useState<Props[]>([]);
 
   const fetchItems = useCallback(async () => {
-    const token = getTokenCookie();
-    if (!token) return;
-    const res = await get("/api/exercise", { token });
-
-    if (res.ok) {
-      // assuming backend response is { data: [...] }
-      const data = res.data;
-      setItems(Array.isArray(data?.data) ? data.data : []);
-    } else {
-      // optional: handle error, show toast, etc.
-      console.error(res.error);
-      setItems([]);
-    }
+    const list = await getExercises();
+    setItems(list);
   }, []);
 
   useEffect(() => {
@@ -31,11 +19,12 @@ export default function UserDashboard() {
 
   return (
     <main className="p-4">
-      <div className="mb-4 flex">
+      <div className="flex">
         <div className="flex-1" /> {/* spacer pushes next item to the right */}
         <CreateExerciseDialog onCreated={fetchItems} />
       </div>
-      <div className="flex flex-row gap-2">
+
+      <div className="flex flex-row gap-2 mt-4">
         {items.map((ex, i) => (
           <ExerciseCard
             key={i}

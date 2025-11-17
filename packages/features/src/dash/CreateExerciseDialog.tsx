@@ -17,7 +17,7 @@ import FormFieldProps from "@workspace/ui/components/form-field";
 import FormSelectProps from "@workspace/ui/components/form-select";
 import { useState } from "react";
 import { getTokenCookie } from "@workspace/ui/lib/token-cookie";
-import { post } from "@workspace/ui/lib/https";
+import { createExercise } from "../api/create-exercise";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -78,20 +78,17 @@ export function CreateExerciseDialog({ onCreated }: { onCreated: () => void }) {
     };
     if (!payload.user) delete payload.user; // omit if empty
 
-    const res = await post("/api/exercise/create", payload, { token });
+    const ok = await createExercise(payload);
+    if (!ok) return;
 
-    if (res.ok) {
-      setOpen(false);
-      form.reset();
-      onCreated(); // still the same: refresh dashboard
-    } else {
-      alert(res.error || "Failed to create exercise");
-    }
+    setOpen(false);
+    form.reset();
+    onCreated();
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Open Dialog</Button>
+        <Button variant="outline">Create Excercises</Button>
       </DialogTrigger>
       <DialogContent className="max-w-[425px] ">
         <DialogHeader>
@@ -186,6 +183,7 @@ export function CreateExerciseDialog({ onCreated }: { onCreated: () => void }) {
                 type="text"
               />
             </div>
+
             <Button type="submit"> {pending ? "Creating…" : "Submit"}</Button>
           </form>
         </Form>
