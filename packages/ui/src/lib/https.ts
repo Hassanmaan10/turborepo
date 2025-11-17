@@ -1,13 +1,39 @@
 const BASE = "https://fitupapi-942q.onrender.com";
 
-export async function request(method: string, path: string, body?: unknown) {
-  try {
-    const init: RequestInit = { method };
+type RequestOptions = {
+  token?: string;
+};
 
+function safeJson(s: string) {
+  try {
+    return JSON.parse(s);
+  } catch {
+    return null;
+  }
+}
+
+export async function request(
+  method: string,
+  path: string,
+  body?: unknown,
+  options: RequestOptions = {}
+) {
+  try {
+    const init: RequestInit = { method, headers: {} };
+
+    // auth header if token provided
+    if (options.token) {
+      (init.headers as Record<string, string>).authorization =
+        `Bearer ${options.token}`;
+    }
+
+    // body + content-type for non-GET/HEAD
     if (body !== undefined && method !== "GET" && method !== "HEAD") {
-      init.headers = { "Content-Type": "application/json" };
+      (init.headers as Record<string, string>)["Content-Type"] =
+        "application/json";
       init.body = JSON.stringify(body);
     }
+
     const res = await fetch(`${BASE}${path}`, init);
 
     const text = await res.text();
@@ -31,21 +57,18 @@ export async function request(method: string, path: string, body?: unknown) {
   }
 }
 
-// Simple wrappers (so you can just call get/post/patch…)
-export const get = (path: string) => request("GET", path);
-export const post = (path: string, body?: unknown) =>
-  request("POST", path, body);
-export const patch = (path: string, body?: unknown) =>
-  request("PATCH", path, body);
-export const put = (path: string, body?: unknown) => request("PUT", path, body);
-export const del = (path: string, body?: unknown) =>
-  request("DELETE", path, body);
+// Simple wrappers
+export const get = (path: string, options?: RequestOptions) =>
+  request("GET", path, undefined, options);
 
-// tiny helper
-function safeJson(s: string) {
-  try {
-    return JSON.parse(s);
-  } catch {
-    return null;
-  }
-}
+export const post = (path: string, body?: unknown, options?: RequestOptions) =>
+  request("POST", path, body, options);
+
+export const patch = (path: string, body?: unknown, options?: RequestOptions) =>
+  request("PATCH", path, body, options);
+
+export const put = (path: string, body?: unknown, options?: RequestOptions) =>
+  request("PUT", path, body, options);
+
+export const del = (path: string, body?: unknown, options?: RequestOptions) =>
+  request("DELETE", path, body, options);
