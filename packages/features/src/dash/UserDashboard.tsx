@@ -1,19 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import ExerciseCard, {
-  Props as ExerciseCardProps,
-} from "@workspace/ui/components/exercise-card";
+import { Exercise } from "@workspace/ui/lib/types";
 import { CreateExerciseDialog } from "./CreateExerciseDialog";
 import { getExercises } from "../api/get-exercise";
 import { deleteExercise } from "../api/delete-exercise";
-
-type Exercise = ExerciseCardProps & {
-  _id: string;
-};
+import { UpdateExerciseDialog } from "./UpdateExerciseDialog";
+import ExerciseCard from "@workspace/ui/components/exercise-card";
 
 export default function UserDashboard() {
   const [items, setItems] = useState<Exercise[]>([]);
+  const [editing, setEditing] = useState<Exercise | null>(null);
 
   const fetchItems = useCallback(async () => {
     const list = await getExercises();
@@ -57,9 +54,16 @@ export default function UserDashboard() {
             youtubeVideo={ex.youtubeVideo}
             targetedMuscles={ex.targetedMuscles}
             onDelete={() => handleDelete(ex._id)}
+            onEdit={() => setEditing(ex)}
           />
         ))}
       </div>
+      <UpdateExerciseDialog
+        exercise={editing} // the selected exercise (or null)
+        open={!!editing} // open when editing is not null
+        onClose={() => setEditing(null)} // close dialog + clear selection
+        onUpdated={fetchItems} // refresh list after successful update
+      />
     </main>
   );
 }
