@@ -7,6 +7,8 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card";
 import ExerciseContent from "@workspace/ui/components/excercise-content";
+import { Button } from "@workspace/ui/components/button";
+import { DeleteIcon } from "lucide-react";
 
 export interface Props {
   title?: string;
@@ -20,6 +22,8 @@ export interface Props {
   image?: string;
   youtubeVideo?: string;
   targetedMuscles?: string[];
+
+  onDelete: () => void;
 }
 
 export default function ExerciseCard({
@@ -34,9 +38,17 @@ export default function ExerciseCard({
   image,
   youtubeVideo,
   targetedMuscles,
+  onDelete,
 }: Props) {
   return (
-    <Card className="w-80">
+    <Card className="w-80 relative">
+      <Button
+        onClick={onDelete}
+        className="bg-transparent w-2.5 absolute top-2 right-2 hover:bg-transparent cursor-pointer"
+      >
+        <DeleteIcon color="red" />
+      </Button>
+
       <CardHeader className="">
         <CardTitle className="text-lg">
           {title ?? "Untitled exercise"}

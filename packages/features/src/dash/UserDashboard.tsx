@@ -1,21 +1,38 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import ExerciseCard, { Props } from "@workspace/ui/components/exercise-card";
+import ExerciseCard, {
+  Props as ExerciseCardProps,
+} from "@workspace/ui/components/exercise-card";
 import { CreateExerciseDialog } from "./CreateExerciseDialog";
 import { getExercises } from "../api/get-exercise";
+import { deleteExercise } from "../api/delete-exercise";
+
+type Exercise = ExerciseCardProps & {
+  _id: string;
+};
 
 export default function UserDashboard() {
-  const [items, setItems] = useState<Props[]>([]);
+  const [items, setItems] = useState<Exercise[]>([]);
 
   const fetchItems = useCallback(async () => {
     const list = await getExercises();
-    setItems(list);
+    setItems(list as Exercise[]);
   }, []);
 
   useEffect(() => {
     fetchItems();
   }, [fetchItems]);
+
+  const handleDelete = useCallback(
+    async (id: string) => {
+      const ok = await deleteExercise(id);
+      if (ok) {
+        fetchItems(); // refresh list after successful delete
+      }
+    },
+    [fetchItems]
+  );
 
   return (
     <main className="p-4">
@@ -25,9 +42,9 @@ export default function UserDashboard() {
       </div>
 
       <div className="flex flex-row gap-2 mt-4">
-        {items.map((ex, i) => (
+        {items.map((ex) => (
           <ExerciseCard
-            key={i}
+            key={ex._id}
             title={ex.title}
             description={ex.description}
             category={ex.category}
@@ -39,6 +56,7 @@ export default function UserDashboard() {
             image={ex.image}
             youtubeVideo={ex.youtubeVideo}
             targetedMuscles={ex.targetedMuscles}
+            onDelete={() => handleDelete(ex._id)}
           />
         ))}
       </div>

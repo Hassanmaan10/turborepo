@@ -51,7 +51,6 @@ export function CreateExerciseDialog({ onCreated }: { onCreated: () => void }) {
       image: "",
       youtubeVideo: "",
       targetedMuscles: "Pectoral, Triceps, Deltoids",
-      user: "",
     },
   });
 
@@ -104,9 +103,9 @@ export function CreateExerciseDialog({ onCreated }: { onCreated: () => void }) {
                 type="text"
               />
               <FormFieldProps
-                name="description"
-                label="Description"
-                placeholder="Description"
+                name="targetedMuscles"
+                label="Targeted muscles"
+                placeholder="Pectoral, Triceps, Deltoids"
                 type="text"
               />
             </div>
@@ -168,18 +167,11 @@ export function CreateExerciseDialog({ onCreated }: { onCreated: () => void }) {
                 type="url"
               />
             </div>
-            <div className="flex flex-row gap-4">
+            <div>
               <FormFieldProps
-                name="targetedMuscles"
-                label="Targeted muscles"
-                placeholder="Pectoral, Triceps, Deltoids"
-                type="text"
-              />
-
-              <FormFieldProps
-                name="user"
-                label="User ID"
-                placeholder="e.g. 6912dd3778ec..."
+                name="description"
+                label="Description"
+                placeholder="Description"
                 type="text"
               />
             </div>
