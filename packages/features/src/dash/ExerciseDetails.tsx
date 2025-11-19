@@ -1,27 +1,12 @@
 "use client";
 import { Exercise } from "@workspace/ui/lib/types";
-import { useEffect, useState } from "react";
-import { getExerciseById } from "../api/get-exercise-by-id";
 import ExerciseCard from "@workspace/features/dash/components/exercise-card";
 
-export default function ExerciseDetails({ id }: { id: string }) {
-  const [exercise, setExercise] = useState<Exercise | null | undefined>(
-    undefined
-  );
-
-  useEffect(() => {
-    if (!id) return;
-
-    (async () => {
-      const item = await getExerciseById(id);
-      setExercise(item);
-    })();
-  }, [id]);
-
-  if (exercise === undefined) {
-    return null;
-  }
-
+export default function ExerciseDetails({
+  exercise,
+}: {
+  exercise: Exercise | null;
+}) {
   if (!exercise) {
     return <main className="p-4">Exercise not found.</main>;
   }

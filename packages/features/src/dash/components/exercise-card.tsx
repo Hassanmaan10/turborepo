@@ -93,6 +93,7 @@ export default function ExerciseCard({
           <div className="relative w-full aspect-1/4 rounded-md overflow-hidden">
             <Image
               src={image}
+              unoptimized
               alt={title ?? "Exercise image"}
               fill
               className="object-cover"
