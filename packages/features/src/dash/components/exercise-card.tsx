@@ -1,5 +1,5 @@
 "use client";
-
+import { Edit2, Pencil, Trash2 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -8,7 +8,7 @@ import {
 } from "@workspace/ui/components/card";
 import ExerciseContent from "@workspace/ui/components/excercise-content";
 import { Button } from "@workspace/ui/components/button";
-import { DeleteIcon, EditIcon } from "lucide-react";
+import Image from "next/image";
 
 export interface Props {
   title?: string;
@@ -36,8 +36,8 @@ export default function ExerciseCard({
   sets,
   reps,
   rest,
-  image,
-  youtubeVideo,
+  image = "",
+  youtubeVideo = "",
   targetedMuscles,
   onDelete,
   onEdit,
@@ -46,16 +46,24 @@ export default function ExerciseCard({
     <Card className="w-80 relative">
       <div className="absolute top-2 right-2 flex items-center gap-1">
         <Button
-          onClick={onEdit}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onEdit();
+          }}
           className="bg-transparent w-2.5  hover:bg-transparent cursor-pointer"
         >
-          <EditIcon color="black" />
+          <Edit2 color="black" />
         </Button>
         <Button
-          onClick={onDelete}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onDelete();
+          }}
           className="bg-transparent w-2.5  hover:bg-transparent cursor-pointer"
         >
-          <DeleteIcon color="red" />
+          <Trash2 color="black" />
         </Button>
       </div>
 
@@ -79,7 +87,19 @@ export default function ExerciseCard({
         </div>
 
         <ExerciseContent label="Muscles:" value={targetedMuscles} />
-        <ExerciseContent label="Image:" value={image} />
+
+        <div className="flex flex-col gap-1">
+          <span className="font-medium">Image:</span>
+          <div className="relative w-full aspect-1/4 rounded-md overflow-hidden">
+            <Image
+              src={image}
+              alt={title ?? "Exercise image"}
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+
         <ExerciseContent label="Youtube:" value={youtubeVideo} />
         <ExerciseContent label="Description:" value={description} />
       </CardContent>
