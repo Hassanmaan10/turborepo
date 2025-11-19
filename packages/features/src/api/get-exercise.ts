@@ -1,6 +1,6 @@
 import { getTokenCookie } from "@workspace/ui/lib/token-cookie";
 import { get } from "@workspace/features/api/https";
-import { Props as Exercise } from "@workspace/ui/components/exercise-card";
+import { Props as Exercise } from "@workspace/features/dash/components/exercise-card";
 
 export async function getExercises(): Promise<Exercise[]> {
   const token = getTokenCookie();

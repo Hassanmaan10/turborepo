@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Props as ExerciseCardProps } from "@workspace/ui/components/exercise-card";
+import { Props as ExerciseCardProps } from "@workspace/features/dash/components/exercise-card";
 
 export const exerciseFormSchema = z.object({
   title: z.string().min(1, "Title is required"),

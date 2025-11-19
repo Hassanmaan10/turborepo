@@ -6,7 +6,8 @@ import { CreateExerciseDialog } from "./CreateExerciseDialog";
 import { getExercises } from "../api/get-exercise";
 import { deleteExercise } from "../api/delete-exercise";
 import { UpdateExerciseDialog } from "./UpdateExerciseDialog";
-import ExerciseCard from "@workspace/ui/components/exercise-card";
+import ExerciseCard from "@workspace/features/dash/components/exercise-card";
+import Link from "next/link";
 
 export default function UserDashboard() {
   const [items, setItems] = useState<Exercise[]>([]);
@@ -40,22 +41,28 @@ export default function UserDashboard() {
 
       <div className="flex flex-row gap-2 mt-4">
         {items.map((ex) => (
-          <ExerciseCard
+          <Link
             key={ex._id}
-            title={ex.title}
-            description={ex.description}
-            category={ex.category}
-            duration={ex.duration}
-            intensity={ex.intensity}
-            sets={ex.sets}
-            reps={ex.reps}
-            rest={ex.rest}
-            image={ex.image}
-            youtubeVideo={ex.youtubeVideo}
-            targetedMuscles={ex.targetedMuscles}
-            onDelete={() => handleDelete(ex._id)}
-            onEdit={() => setEditing(ex)}
-          />
+            href={`/dashboard/exercise/${ex._id}`}
+            className="cursor-pointer"
+          >
+            <ExerciseCard
+              key={ex._id}
+              title={ex.title}
+              description={ex.description}
+              category={ex.category}
+              duration={ex.duration}
+              intensity={ex.intensity}
+              sets={ex.sets}
+              reps={ex.reps}
+              rest={ex.rest}
+              image={ex.image}
+              youtubeVideo={ex.youtubeVideo}
+              targetedMuscles={ex.targetedMuscles}
+              onDelete={() => handleDelete(ex._id)}
+              onEdit={() => setEditing(ex)}
+            />
+          </Link>
         ))}
       </div>
       <UpdateExerciseDialog

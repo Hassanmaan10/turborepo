@@ -9,7 +9,8 @@
   "include": [
     ".",
     "../features/src/api/create-exercise.ts",
-    "../features/src/api/https.ts"
+    "../features/src/api/https.ts",
+    "../features/src/dash/components/exercise-card.tsx"
   ],
   "exclude": ["node_modules", "dist"]
 }
