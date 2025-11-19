@@ -1,9 +1,11 @@
-import { getTokenCookie } from "@workspace/ui/lib/token-cookie";
+"use server";
 import { Exercise } from "@workspace/ui/lib/types";
 import { get } from "@workspace/features/api/https";
 
-export async function getExerciseById(id: string): Promise<Exercise | null> {
-  const token = getTokenCookie();
+export async function getExerciseById(
+  id: string,
+  token: string | undefined
+): Promise<Exercise | null> {
   if (!token) {
     console.error("No auth token, please login");
     return null;
