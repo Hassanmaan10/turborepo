@@ -103,18 +103,21 @@ export default function ExerciseCard({
 
         <ExerciseContent label="Muscles:" value={targetedMuscles} />
 
-        <div className="flex flex-col gap-1">
-          <span className="font-medium">Image:</span>
-          <div className="relative w-full aspect-1/4 rounded-md overflow-hidden">
+        {image ? (
+          <div className=" wfull h-40 rounded-md overflow-hidden">
             <Image
               src={image}
-              unoptimized
               alt={title ?? "Exercise image"}
-              fill
-              className="object-cover"
+              width={320}
+              height={160}
+              className="h-40 w-full object-cover"
             />
           </div>
-        </div>
+        ) : (
+          <div className="flex w-full h-40 items-center justify-center rounded-md bg-gray-100 text-xs text-gray-500">
+            No image
+          </div>
+        )}
 
         <ExerciseContent label="Youtube:" value={youtubeVideo} />
         <ExerciseContent label="Description:" value={description} />
