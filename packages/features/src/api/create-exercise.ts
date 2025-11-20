@@ -1,8 +1,10 @@
-import { getTokenCookie } from "@workspace/ui/lib/token-cookie";
+"use server";
+
 import { post } from "@workspace/features/api/https";
+import { getServerToken } from "./token-server";
 
 export async function createExercise(payload: any): Promise<boolean> {
-  const token = getTokenCookie();
+  const token = await getServerToken();
   if (!token) {
     alert("Please login again");
     return false;

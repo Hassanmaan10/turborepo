@@ -1,8 +1,9 @@
-import { getTokenCookie } from "@workspace/ui/lib/token-cookie";
+"use server";
 import { del } from "./https";
+import { getServerToken } from "./token-server";
 
 export async function deleteExercise(id: string): Promise<boolean> {
-  const token = getTokenCookie();
+  const token = await getServerToken();
   if (!token) {
     alert("Please try again");
     return false;
