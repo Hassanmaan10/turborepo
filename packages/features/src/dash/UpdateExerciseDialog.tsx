@@ -184,7 +184,7 @@ export function UpdateExerciseDialog({
               type="text"
             />
 
-            <Button type="submit">
+            <Button type="submit" disabled={pending}>
               {pending ? "Updating…" : "Save changes"}
             </Button>
           </form>
