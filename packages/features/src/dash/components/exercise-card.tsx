@@ -9,6 +9,7 @@ import {
 import ExerciseContent from "@workspace/ui/components/excercise-content";
 import { Button } from "@workspace/ui/components/button";
 import Image from "next/image";
+import { useState } from "react";
 
 export interface Props {
   title?: string;
@@ -23,7 +24,7 @@ export interface Props {
   youtubeVideo?: string;
   targetedMuscles?: string[];
 
-  onDelete: () => void;
+  onDelete: () => Promise<void> | void;
   onEdit: () => void;
 }
 
@@ -42,8 +43,25 @@ export default function ExerciseCard({
   onDelete,
   onEdit,
 }: Props) {
+  const [isDeleting, setIsDeleting] = useState(false);
+  const handleDeleteClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isDeleting) return;
+    setIsDeleting(true);
+    try {
+      await onDelete();
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
-    <Card className="w-80 relative">
+    <Card
+      className={
+        "w-80 relative transition-opacity " +
+        (isDeleting ? "opacity-50 pointer-events-none" : "")
+      }
+    >
       <div className="absolute top-2 right-2 flex items-center gap-1">
         <Button
           onClick={(e) => {
@@ -56,12 +74,9 @@ export default function ExerciseCard({
           <Edit2 color="black" />
         </Button>
         <Button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onDelete();
-          }}
-          className="bg-transparent w-2.5  hover:bg-transparent cursor-pointer"
+          onClick={handleDeleteClick}
+          className="bg-transparent w-2.5 hover:bg-transparent cursor-pointer"
+          disabled={isDeleting}
         >
           <Trash2 color="black" />
         </Button>

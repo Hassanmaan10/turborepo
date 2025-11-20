@@ -67,7 +67,13 @@ export function CreateExerciseDialog({ onCreated }: { onCreated: () => void }) {
     onCreated();
   }
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(nextOpen) => {
+        if (pending) return;
+        setOpen(nextOpen);
+      }}
+    >
       <DialogTrigger asChild>
         <Button variant="outline">Create Excercises</Button>
       </DialogTrigger>
@@ -159,7 +165,10 @@ export function CreateExerciseDialog({ onCreated }: { onCreated: () => void }) {
               />
             </div>
 
-            <Button type="submit"> {pending ? "Creating…" : "Submit"}</Button>
+            <Button type="submit" disabled={pending}>
+              {" "}
+              {pending ? "Creating…" : "Submit"}
+            </Button>
           </form>
         </Form>
       </DialogContent>
