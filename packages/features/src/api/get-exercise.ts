@@ -1,9 +1,10 @@
-import { getTokenCookie } from "@workspace/ui/lib/token-cookie";
+"use server";
 import { get } from "@workspace/features/api/https";
 import { Props as Exercise } from "@workspace/features/dash/components/exercise-card";
+import { getServerToken } from "./token-server";
 
 export async function getExercises(): Promise<Exercise[]> {
-  const token = getTokenCookie();
+  const token = await getServerToken();
   if (!token) return [];
 
   const res = await get("/api/exercise", { token });
