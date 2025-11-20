@@ -43,7 +43,7 @@ export default function UserDashboard() {
         {items.map((ex) => (
           <Link
             key={ex._id}
-            href={`/dashboard/exercise/${ex._id}`}
+            href={`/exercise/${ex._id}`}
             className="cursor-pointer"
           >
             <ExerciseCard

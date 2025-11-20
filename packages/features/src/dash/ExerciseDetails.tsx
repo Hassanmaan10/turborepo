@@ -28,6 +28,7 @@ export default function ExerciseDetails({
         targetedMuscles={exercise.targetedMuscles}
         onDelete={() => {}}
         onEdit={() => {}}
+        showActions={false}
       />
     </main>
   );

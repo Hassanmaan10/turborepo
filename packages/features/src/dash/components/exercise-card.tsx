@@ -1,5 +1,5 @@
 "use client";
-import { Edit2, Pencil, Trash2 } from "lucide-react";
+import { Edit2, Trash2 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -26,6 +26,8 @@ export interface Props {
 
   onDelete: () => Promise<void> | void;
   onEdit: () => void;
+
+  showActions?: boolean;
 }
 
 export default function ExerciseCard({
@@ -42,6 +44,7 @@ export default function ExerciseCard({
   targetedMuscles,
   onDelete,
   onEdit,
+  showActions = true,
 }: Props) {
   const [isDeleting, setIsDeleting] = useState(false);
   const handleDeleteClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -58,29 +61,30 @@ export default function ExerciseCard({
   return (
     <Card
       className={
-        "w-80 relative transition-opacity " +
-        (isDeleting ? "opacity-50 pointer-events-none" : "")
+        "w-80 relative transition-opacity " + (isDeleting ? "opacity-50" : "")
       }
     >
-      <div className="absolute top-2 right-2 flex items-center gap-1">
-        <Button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onEdit();
-          }}
-          className="bg-transparent w-2.5  hover:bg-transparent cursor-pointer"
-        >
-          <Edit2 color="black" />
-        </Button>
-        <Button
-          onClick={handleDeleteClick}
-          className="bg-transparent w-2.5 hover:bg-transparent cursor-pointer"
-          disabled={isDeleting}
-        >
-          <Trash2 color="black" />
-        </Button>
-      </div>
+      {showActions && (
+        <div className="absolute top-2 right-2 flex items-center gap-1">
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onEdit();
+            }}
+            className="bg-transparent w-2.5 hover:bg-transparent cursor-pointer"
+          >
+            <Edit2 color="black" />
+          </Button>
+          <Button
+            onClick={handleDeleteClick}
+            className="bg-transparent w-2.5 hover:bg-transparent cursor-pointer"
+            disabled={isDeleting}
+          >
+            <Trash2 color="black" />
+          </Button>
+        </div>
+      )}
 
       <CardHeader className="">
         <CardTitle className="text-lg">
