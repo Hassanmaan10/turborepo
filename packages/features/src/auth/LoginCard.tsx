@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "@workspace/ui/components/form";
 import FormFieldProps from "@workspace/ui/components/form-field";
-import { post } from "@workspace/features/api/https";
+import { post } from "@workspace/api/https";
 import setTokenCookie from "@workspace/ui/lib/token-cookie";
 import { useRouter } from "next/navigation.js";
 
@@ -51,7 +51,7 @@ export default function LoginCard() {
       if (typeof token === "string") {
         setTokenCookie(token);
       }
-      router.push("/dashboard");
+      router.push("/exercise");
       return;
     }
     alert(res.error);
