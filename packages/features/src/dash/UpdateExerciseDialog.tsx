@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Form } from "@workspace/ui/components/form";
-import { updateExercise } from "../api/update-exercise";
+import { updateExercise } from "@workspace/api/update-exercise";
 import {
   Dialog,
   DialogContent,

@@ -1,7 +1,7 @@
 import ExerciseDetails from "@workspace/features/dash/ExerciseDetails";
 import { Exercise } from "@workspace/ui/lib/types";
-import { getExerciseById } from "@workspace/features/api/get-exercise-by-id";
-import { getServerToken } from "@workspace/features/api/token-server";
+import { getExerciseById } from "@workspace/api/get-exercise-by-id";
+import { getServerToken } from "@workspace/api/token-server";
 
 export default async function ExerciseDetailsPage({
   params,

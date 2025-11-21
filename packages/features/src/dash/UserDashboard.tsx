@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Exercise } from "@workspace/ui/lib/types";
 import { CreateExerciseDialog } from "./CreateExerciseDialog";
-import { getExercises } from "../api/get-exercise";
-import { deleteExercise } from "../api/delete-exercise";
+import { getExercises } from "@workspace/api/get-exercise";
+import { deleteExercise } from "@workspace/api/delete-exercise";
 import { UpdateExerciseDialog } from "./UpdateExerciseDialog";
 import ExerciseCard from "@workspace/features/dash/components/exercise-card";
 import Link from "next/link";

@@ -1,0 +1,8 @@
+{
+  "name": "@workspace/api",
+  "version": "0.0.0",
+  "dependencies": {
+    "@workspace/ui": "workspace:*",
+    "@workspace/features": "workspace:*"
+  }
+}

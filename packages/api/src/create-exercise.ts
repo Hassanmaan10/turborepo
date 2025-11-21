@@ -1,6 +1,6 @@
 "use server";
 
-import { post } from "@workspace/features/api/https";
+import { post } from "./https";
 import { getServerToken } from "./token-server";
 
 export async function createExercise(payload: any): Promise<boolean> {

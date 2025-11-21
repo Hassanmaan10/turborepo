@@ -6,11 +6,6 @@
       "@workspace/ui/*": ["./src/*"]
     }
   },
-  "include": [
-    ".",
-    "../features/src/api/create-exercise.ts",
-    "../features/src/api/https.ts",
-    "../features/src/dash/components/exercise-card.tsx"
-  ],
+  "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }

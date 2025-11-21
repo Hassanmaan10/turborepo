@@ -16,7 +16,7 @@ import FormFieldProps from "@workspace/ui/components/form-field";
 import FormSelectProps from "@workspace/ui/components/form-select";
 import { useState } from "react";
 import { getTokenCookie } from "@workspace/ui/lib/token-cookie";
-import { createExercise } from "../api/create-exercise";
+import { createExercise } from "@workspace/api/create-exercise";
 import {
   exerciseFormSchema,
   ExerciseFormValues,
