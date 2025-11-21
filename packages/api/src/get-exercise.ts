@@ -1,7 +1,8 @@
 "use server";
-import { get } from "@workspace/features/api/https";
+
 import { Props as Exercise } from "@workspace/features/dash/components/exercise-card";
 import { getServerToken } from "./token-server";
+import { get } from "./https";
 
 export async function getExercises(): Promise<Exercise[]> {
   const token = await getServerToken();

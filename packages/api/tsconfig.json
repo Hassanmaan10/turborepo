@@ -5,8 +5,9 @@
     "moduleResolution": "Bundler",
     "baseUrl": ".",
     "paths": {
-      "@workspace/features/*": ["./src/*"],
-      "@workspace/api/*": ["../api/src/*"]
+      "@workspace/ui/*": ["../ui/src/*"],
+      "@workspace/features/*": ["../features/src/*"],
+      "@workspace/api/*": ["./src/*"]
     }
   },
   "include": ["src"]
