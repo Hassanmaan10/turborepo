@@ -14,7 +14,7 @@ import { z } from "zod";
 import { Form } from "@workspace/ui/components/form";
 import FormFieldProps from "@workspace/ui/components/form-field";
 import FormSelectProps from "@workspace/ui/components/form-select";
-import { post } from "@workspace/features/api/https";
+import { post } from "@workspace/api/https";
 
 const formSchema = z.object({
   // required: string

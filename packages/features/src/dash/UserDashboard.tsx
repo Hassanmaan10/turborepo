@@ -39,7 +39,7 @@ export default function UserDashboard() {
         <CreateExerciseDialog onCreated={fetchItems} />
       </div>
 
-      <div className="flex flex-row gap-2 mt-4">
+      <div className="flex gap-2 mt-4">
         {items.map((ex) => (
           <Link
             key={ex._id}
