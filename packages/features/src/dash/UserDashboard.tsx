@@ -8,10 +8,15 @@ import { deleteExercise } from "@workspace/api/delete-exercise";
 import { UpdateExerciseDialog } from "./UpdateExerciseDialog";
 import ExerciseCard from "@workspace/features/dash/components/exercise-card";
 import Link from "next/link";
+import { useAuth } from "@workspace/ui/hooks/use-auth";
+import { useRouter } from "next/navigation";
 
 export default function UserDashboard() {
   const [items, setItems] = useState<Exercise[]>([]);
   const [editing, setEditing] = useState<Exercise | null>(null);
+
+  const { isAuthenticated } = useAuth();
+  const router = useRouter();
 
   const fetchItems = useCallback(async () => {
     const list = await getExercises();
@@ -19,8 +24,14 @@ export default function UserDashboard() {
   }, []);
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace("/login");
+      return;
+    }
+
+    // only runs when authenticated
     fetchItems();
-  }, [fetchItems]);
+  }, [isAuthenticated, fetchItems, router]);
 
   const handleDelete = useCallback(
     async (id: string) => {
@@ -31,6 +42,11 @@ export default function UserDashboard() {
     },
     [fetchItems]
   );
+
+  // guard UI while redirecting / not auth
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <main className="p-4">
