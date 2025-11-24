@@ -16,6 +16,7 @@ import FormFieldProps from "@workspace/ui/components/form-field";
 import { post } from "@workspace/api/https";
 import setTokenCookie from "@workspace/ui/lib/token-cookie";
 import { useRouter } from "next/navigation.js";
+import { useAuth } from "@workspace/ui/hooks/use-auth";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -30,6 +31,7 @@ const formSchema = z.object({
 
 export default function LoginCard() {
   const router = useRouter();
+  const { login } = useAuth();
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -50,6 +52,7 @@ export default function LoginCard() {
       const token = (res.data as any)?.token;
       if (typeof token === "string") {
         setTokenCookie(token);
+        login(token);
       }
       router.push("/exercise");
       return;

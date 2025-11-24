@@ -3,12 +3,10 @@
 import Link from "next/link";
 import { Button } from "@workspace/ui/components/button";
 import { Dumbbell } from "lucide-react";
+import { useAuth } from "@workspace/ui/hooks/use-auth";
 
-interface HeaderProps {
-  isAuthenticated?: boolean;
-}
-
-export function Header({ isAuthenticated }: HeaderProps) {
+export function Header() {
+  const { isAuthenticated, logout } = useAuth();
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
       <div className="container mx-auto px-4">
@@ -57,8 +55,8 @@ export function Header({ isAuthenticated }: HeaderProps) {
 
             {isAuthenticated && (
               <>
-                <Button variant="ghost" asChild>
-                  <Link href="/dashboard">Logout</Link>
+                <Button variant="ghost" onClick={logout} asChild>
+                  <Link href="/">Logout</Link>
                 </Button>
               </>
             )}

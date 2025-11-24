@@ -6,7 +6,8 @@
     "baseUrl": ".",
     "paths": {
       "@workspace/features/*": ["./src/*"],
-      "@workspace/api/*": ["../api/src/*"]
+      "@workspace/api/*": ["../api/src/*"],
+      "@workspace/ui/*": ["../ui/src/*"]
     }
   },
   "include": ["src"]
