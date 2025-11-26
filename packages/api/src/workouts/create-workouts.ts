@@ -1,9 +1,9 @@
 "use server";
 
-import { post } from "./https";
-import { getServerToken } from "./token-server";
+import { post } from "../https";
+import { getServerToken } from "../token-server";
 
-export async function createExercise(payload: any): Promise<boolean> {
+export async function createWorkouts(payload: any): Promise<boolean> {
   const token = await getServerToken();
   if (!token) {
     alert("Please login again");

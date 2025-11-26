@@ -10,6 +10,7 @@ import {
 
 type AuthContextValue = {
   isAuthenticated: boolean;
+  authChecked: boolean;
   login: (token: string) => void;
   logout: () => void;
 };
@@ -22,11 +23,15 @@ export default function AuthContextProvider({
   children: ReactNode;
 }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
 
+  // ✅ read token on client after mount
   useEffect(() => {
     if (typeof window === "undefined") return;
+
     const token = localStorage.getItem("auth_token");
     setIsAuthenticated(!!token);
+    setAuthChecked(true);
   }, []);
 
   const login = (token: string) => {
@@ -34,6 +39,7 @@ export default function AuthContextProvider({
       localStorage.setItem("auth_token", token);
     }
     setIsAuthenticated(true);
+    setAuthChecked(true);
   };
 
   const logout = () => {
@@ -41,10 +47,13 @@ export default function AuthContextProvider({
       localStorage.removeItem("auth_token");
     }
     setIsAuthenticated(false);
+    setAuthChecked(true);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, authChecked, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -33,7 +33,7 @@ export function Header() {
               Exercises
             </Link>
             <Link
-              href="/workouts"
+              href="/workout"
               className="text-foreground hover:text-primary transition-colors font-medium"
             >
               Workouts
