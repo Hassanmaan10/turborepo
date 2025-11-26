@@ -1,3 +1,4 @@
+"use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import csvToArray from "@workspace/ui/components/csv-to-array";
 import { getTokenCookie } from "@workspace/ui/lib/token-cookie";
