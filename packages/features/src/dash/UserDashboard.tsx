@@ -15,23 +15,13 @@ export default function UserDashboard() {
   const [items, setItems] = useState<Exercise[]>([]);
   const [editing, setEditing] = useState<Exercise | null>(null);
 
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, authChecked } = useAuth();
   const router = useRouter();
 
   const fetchItems = useCallback(async () => {
     const list = await getExercises();
     setItems(list as Exercise[]);
   }, []);
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.replace("/login");
-      return;
-    }
-
-    // only runs when authenticated
-    fetchItems();
-  }, [isAuthenticated, fetchItems, router]);
 
   const handleDelete = useCallback(
     async (id: string) => {
@@ -43,7 +33,22 @@ export default function UserDashboard() {
     [fetchItems]
   );
 
-  // guard UI while redirecting / not auth
+  useEffect(() => {
+    if (!authChecked) return; // wait until we know auth state
+
+    if (!isAuthenticated) {
+      router.replace("/login");
+      return;
+    }
+
+    // only runs when authenticated
+    fetchItems();
+  }, [authChecked, isAuthenticated, fetchItems, router]);
+
+  if (!authChecked) {
+    return null; // or a loader
+  }
+
   if (!isAuthenticated) {
     return null;
   }
