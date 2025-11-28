@@ -10,87 +10,81 @@ import ExerciseCard from "@workspace/features/dash/components/exercise-card";
 import Link from "next/link";
 import { useAuth } from "@workspace/ui/hooks/use-auth";
 import { useRouter } from "next/navigation";
+import LoadingAuth from "@workspace/ui/components/loading-auth";
 
 export default function UserDashboard() {
   const [items, setItems] = useState<Exercise[]>([]);
   const [editing, setEditing] = useState<Exercise | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const { isAuthenticated, authChecked } = useAuth();
   const router = useRouter();
 
   const fetchItems = useCallback(async () => {
+    setLoading(true);
     const list = await getExercises();
     setItems(list as Exercise[]);
+    setLoading(false);
   }, []);
 
   const handleDelete = useCallback(
     async (id: string) => {
       const ok = await deleteExercise(id);
       if (ok) {
-        fetchItems(); // refresh list after successful delete
+        fetchItems(); // refresh list
       }
     },
     [fetchItems]
   );
 
   useEffect(() => {
-    if (!authChecked) return; // wait until we know auth state
+    if (!authChecked) return;
 
     if (!isAuthenticated) {
       router.replace("/login");
       return;
     }
 
-    // only runs when authenticated
     fetchItems();
   }, [authChecked, isAuthenticated, fetchItems, router]);
 
-  if (!authChecked) {
-    return null; // or a loader
-  }
-
-  if (!isAuthenticated) {
-    return null;
-  }
+  if (!authChecked) return null;
+  if (!isAuthenticated) return null;
 
   return (
     <main className="p-4">
       <div className="flex">
-        <div className="flex-1" /> {/* spacer pushes next item to the right */}
+        <div className="flex-1" />
         <CreateExerciseDialog onCreated={fetchItems} />
       </div>
 
-      <div className="flex gap-2 mt-4">
-        {items.map((ex) => (
-          <Link
-            key={ex._id}
-            href={`/exercise/${ex._id}`}
-            className="cursor-pointer"
-          >
-            <ExerciseCard
+      {loading ? (
+        <LoadingAuth />
+      ) : items.length === 0 ? (
+        <p className="text-muted-foreground mt-4">No exercises found.</p>
+      ) : (
+        <div className="flex gap-2 mt-4 flex-wrap">
+          {items.map((ex) => (
+            <Link
               key={ex._id}
-              title={ex.title}
-              description={ex.description}
-              category={ex.category}
-              duration={ex.duration}
-              intensity={ex.intensity}
-              sets={ex.sets}
-              reps={ex.reps}
-              rest={ex.rest}
-              image={ex.image}
-              youtubeVideo={ex.youtubeVideo}
-              targetedMuscles={ex.targetedMuscles}
-              onDelete={() => handleDelete(ex._id)}
-              onEdit={() => setEditing(ex)}
-            />
-          </Link>
-        ))}
-      </div>
+              href={`/exercise/${ex._id}`}
+              className="cursor-pointer"
+            >
+              <ExerciseCard
+                {...ex}
+                onDelete={() => handleDelete(ex._id)}
+                onEdit={() => setEditing(ex)}
+              />
+            </Link>
+          ))}
+        </div>
+      )}
+
       <UpdateExerciseDialog
-        exercise={editing} // the selected exercise (or null)
-        open={!!editing} // open when editing is not null
-        onClose={() => setEditing(null)} // close dialog + clear selection
-        onUpdated={fetchItems} // refresh list after successful update
+        exercise={editing}
+        open={!!editing}
+        onClose={() => setEditing(null)}
+        onUpdated={fetchItems}
       />
     </main>
   );

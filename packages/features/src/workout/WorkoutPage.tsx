@@ -5,13 +5,17 @@ import getWorkouts from "@workspace/api/workouts/get-workouts";
 import WorkoutCard from "./components/workout-card";
 import CreateWorkoutDialog from "./CreateWorkoutDialog";
 import { WorkoutProps } from "./components/workout-card";
+import LoadingAuth from "@workspace/ui/components/loading-auth";
 
 export default function WorkoutPage() {
   const [workouts, setWorkouts] = useState<WorkoutProps[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchWorkouts = useCallback(async () => {
+    setLoading(true);
     const list = await getWorkouts();
     setWorkouts(list);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -26,9 +30,8 @@ export default function WorkoutPage() {
         <CreateWorkoutDialog onCreated={fetchWorkouts} />
       </div>
 
-      {/* WORKOUT GRID */}
-      {workouts.length === 0 ? (
-        <p className="text-muted-foreground">No workouts found.</p>
+      {loading ? (
+        <LoadingAuth />
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {workouts.map((workout) => (
