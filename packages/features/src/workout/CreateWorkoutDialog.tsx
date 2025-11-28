@@ -17,6 +17,7 @@ import { Button } from "@workspace/ui/components/button";
 import { Form } from "@workspace/ui/components/form";
 import FormFieldProps from "@workspace/ui/components/form-field";
 import FormSelectProps from "@workspace/ui/components/form-select";
+import FormTextAreaProps from "@workspace/ui/components/form-textarea";
 
 export default function CreateWorkoutDialog({
   onCreated,
@@ -94,11 +95,10 @@ export default function CreateWorkoutDialog({
               />
             </div>
 
-            <FormFieldProps
+            <FormTextAreaProps
               name="description"
               label="Description"
               placeholder="A simple full body workout for beginners."
-              type="text"
             />
 
             <FormFieldProps
