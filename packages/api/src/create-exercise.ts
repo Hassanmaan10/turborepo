@@ -6,13 +6,15 @@ import { getServerToken } from "./token-server";
 export async function createExercise(payload: any): Promise<boolean> {
   const token = await getServerToken();
   if (!token) {
-    alert("Please login again");
+    console.error("❌ createExercise: Missing token. Please login again.");
     return false;
   }
-  const res = await post("/api/workout/create", payload, { token });
+  console.log("📦 [createExercise] payload:", payload);
+  const res = await post("/api/exercise/create", payload, { token });
+  console.log("📨 [createExercise] response:", res);
 
   if (!res.ok) {
-    alert(res.error || "Failed to create a exercise");
+    console.error("❌ [createExercise] FAILED:", res.error, res.data);
     return false;
   }
   return true;
