@@ -17,6 +17,7 @@ import { post } from "@workspace/api/https";
 import setTokenCookie from "@workspace/ui/lib/token-cookie";
 import { useRouter } from "next/navigation.js";
 import { useAuth } from "@workspace/ui/hooks/use-auth";
+import { toast } from "@workspace/ui/components/sonner";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -45,19 +46,24 @@ export default function LoginCard() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const res = await post("/api/auth/login", values);
+    try {
+      const res = await post("/api/auth/login", values);
 
-    console.log("LOGIN DATA:", res.data);
-    if (res.ok) {
-      const token = (res.data as any)?.token;
-      if (typeof token === "string") {
-        setTokenCookie(token);
-        login(token);
+      if (res.ok) {
+        const token = (res.data as any)?.token;
+        if (typeof token === "string") {
+          setTokenCookie(token);
+          login(token);
+        }
+        toast.success("Logged in successfully ✅");
+        router.push("/exercise");
+        return;
       }
-      router.push("/exercise");
-      return;
+      toast.error(res.error ?? "Invalid credentials. Please try again.");
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("Something went wrong. Please try again.");
     }
-    alert(res.error);
   }
   return (
     <Card className="w-full max-w-sm">

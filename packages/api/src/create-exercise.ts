@@ -11,7 +11,6 @@ export async function createExercise(payload: any): Promise<boolean> {
   }
   console.log("📦 [createExercise] payload:", payload);
   const res = await post("/api/exercise/create", payload, { token });
-  console.log("📨 [createExercise] response:", res);
 
   if (!res.ok) {
     console.error("❌ [createExercise] FAILED:", res.error, res.data);

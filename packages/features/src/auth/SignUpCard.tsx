@@ -15,6 +15,8 @@ import { Form } from "@workspace/ui/components/form";
 import FormFieldProps from "@workspace/ui/components/form-field";
 import FormSelectProps from "@workspace/ui/components/form-select";
 import { post } from "@workspace/api/https";
+import { toast } from "@workspace/ui/components/sonner";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   // required: string
@@ -63,6 +65,7 @@ const formSchema = z.object({
 });
 
 export default function SignUpCard() {
+  const router = useRouter();
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -80,12 +83,18 @@ export default function SignUpCard() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const res = await post("/api/auth/signup", values);
+    try {
+      const res = await post("/api/auth/signup", values);
 
-    if (res.ok) {
-      alert("Signed up successfully!");
-    } else {
-      alert(res.error);
+      if (res.ok) {
+        toast.success("Signed up successfully ✅");
+        router.push("/login");
+      } else {
+        toast.error(res.error ?? "Failed to sign up. Please try again.");
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      toast.error("Something went wrong. Please try again.");
     }
   }
 
