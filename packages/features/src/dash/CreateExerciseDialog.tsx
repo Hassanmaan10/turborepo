@@ -22,6 +22,7 @@ import {
   ExerciseFormValues,
 } from "@workspace/ui/lib/types";
 import csvToArray from "@workspace/ui/components/csv-to-array";
+import FormTextAreaProps from "@workspace/ui/components/form-textarea";
 
 export function CreateExerciseDialog({ onCreated }: { onCreated: () => void }) {
   const [open, setOpen] = useState(false);
@@ -157,11 +158,10 @@ export function CreateExerciseDialog({ onCreated }: { onCreated: () => void }) {
               />
             </div>
             <div>
-              <FormFieldProps
+              <FormTextAreaProps
                 name="description"
                 label="Description"
                 placeholder="Description"
-                type="text"
               />
             </div>
 
