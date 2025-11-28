@@ -6,6 +6,7 @@ import WorkoutCard from "./components/workout-card";
 import CreateWorkoutDialog from "./CreateWorkoutDialog";
 import { WorkoutProps } from "./components/workout-card";
 import LoadingAuth from "@workspace/ui/components/loading-auth";
+import { toast } from "@workspace/ui/components/sonner";
 
 export default function WorkoutPage() {
   const [workouts, setWorkouts] = useState<WorkoutProps[]>([]);
@@ -13,9 +14,21 @@ export default function WorkoutPage() {
 
   const fetchWorkouts = useCallback(async () => {
     setLoading(true);
-    const list = await getWorkouts();
-    setWorkouts(list);
-    setLoading(false);
+    try {
+      const list = await getWorkouts();
+      if (!list) {
+        toast.error("Failed to load workouts. Please try again.");
+        setWorkouts([]);
+        return;
+      }
+      setWorkouts(list);
+    } catch (error) {
+      console.error("Error fetching workouts:", error);
+      toast.error("Something went wrong while loading workouts.");
+      setWorkouts([]);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {

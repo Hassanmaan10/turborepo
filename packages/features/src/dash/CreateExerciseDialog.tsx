@@ -23,6 +23,7 @@ import {
 } from "@workspace/ui/lib/types";
 import csvToArray from "@workspace/ui/components/csv-to-array";
 import FormTextAreaProps from "@workspace/ui/components/form-textarea";
+import { toast } from "@workspace/ui/components/sonner";
 
 export function CreateExerciseDialog({ onCreated }: { onCreated: () => void }) {
   const [open, setOpen] = useState(false);
@@ -54,22 +55,26 @@ export function CreateExerciseDialog({ onCreated }: { onCreated: () => void }) {
       return;
     }
 
-    console.log("📝 form values:", values);
-
     const payload: any = {
       ...values,
       targetedMuscles: csvToArray(values.targetedMuscles),
     };
     if (!payload.user) delete payload.user; // omit if empty
 
-    console.log("📦 payload to API:", payload);
-
-    const ok = await createExercise(payload);
-    if (!ok) return;
-
-    setOpen(false);
-    form.reset();
-    onCreated();
+    try {
+      const ok = await createExercise(payload);
+      if (!ok) {
+        toast.error("Failed to create exercise. Please try again.");
+        return;
+      }
+      toast.success("Exercise created successfully ✅");
+      setOpen(false);
+      form.reset();
+      onCreated();
+    } catch (error) {
+      console.error("Create exercise error:", error);
+      toast.error("Something went wrong. Please try again.");
+    }
   }
   return (
     <Dialog

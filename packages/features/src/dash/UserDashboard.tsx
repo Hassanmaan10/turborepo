@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useAuth } from "@workspace/ui/hooks/use-auth";
 import { useRouter } from "next/navigation";
 import LoadingAuth from "@workspace/ui/components/loading-auth";
+import { toast } from "@workspace/ui/components/sonner";
 
 export default function UserDashboard() {
   const [items, setItems] = useState<Exercise[]>([]);
@@ -22,16 +23,35 @@ export default function UserDashboard() {
 
   const fetchItems = useCallback(async () => {
     setLoading(true);
-    const list = await getExercises();
-    setItems(list as Exercise[]);
-    setLoading(false);
+    try {
+      const list = await getExercises();
+      if (!list) {
+        toast.error("Failed to load exercises. Please try again.");
+        setItems([]);
+        return;
+      }
+      setItems(list as Exercise[]);
+    } catch (error) {
+      console.error("Error fetching exercises:", error);
+      toast.error("Something went wrong while loading exercises.");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   const handleDelete = useCallback(
     async (id: string) => {
-      const ok = await deleteExercise(id);
-      if (ok) {
-        fetchItems(); // refresh list
+      try {
+        const ok = await deleteExercise(id);
+        if (!ok) {
+          toast.error("Failed to delete exercise. Please try again.");
+          return;
+        }
+        toast.success("Exercise deleted successfully ✅");
+        await fetchItems(); // refresh list
+      } catch (error) {
+        console.error("Delete exercise error:", error);
+        toast.error("Something went wrong while deleting the exercise.");
       }
     },
     [fetchItems]

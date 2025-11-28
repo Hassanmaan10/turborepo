@@ -23,6 +23,7 @@ import FormSelectProps from "@workspace/ui/components/form-select";
 import FormTextAreaProps from "@workspace/ui/components/form-textarea";
 import { getExercises } from "@workspace/api/get-exercise";
 import FormDropDownMenu from "@workspace/ui/components/from-dropdown-menu";
+import { toast } from "@workspace/ui/components/sonner";
 
 export default function CreateWorkoutDialog({
   onCreated,
@@ -57,7 +58,7 @@ export default function CreateWorkoutDialog({
   async function onSubmit(values: WorkoutFormValues) {
     const token = getTokenCookie();
     if (!token) {
-      alert("Please login again");
+      toast.error("Please log in again.");
       return;
     }
 
@@ -66,12 +67,21 @@ export default function CreateWorkoutDialog({
     };
     if (!payload.user) delete payload.user; // omit if empty
 
-    const ok = await createWorkouts(payload);
-    if (!ok) return;
+    try {
+      const ok = await createWorkouts(payload);
+      if (!ok) {
+        toast.error("Failed to create workout. Please try again.");
+        return;
+      }
 
-    setOpen(false);
-    form.reset();
-    onCreated();
+      toast.success("Workout created successfully ✅");
+      setOpen(false);
+      form.reset();
+      onCreated();
+    } catch (error) {
+      console.error("Create workout error:", error);
+      toast.error("Something went wrong. Please try again.");
+    }
   }
 
   return (

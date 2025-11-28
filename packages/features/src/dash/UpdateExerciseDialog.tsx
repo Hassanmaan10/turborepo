@@ -18,6 +18,7 @@ import {
   exerciseFormSchema,
   ExerciseFormValues,
 } from "@workspace/ui/lib/types";
+import { toast } from "@workspace/ui/components/sonner";
 
 interface UpdateExerciseDialogProps {
   exercise: Exercise | null;
@@ -78,11 +79,19 @@ export function UpdateExerciseDialog({
     };
     if (!payload.user) delete payload.user;
 
-    const ok = await updateExercise(exercise._id, payload);
-    if (!ok) return;
-
-    onUpdated();
-    onClose();
+    try {
+      const ok = await updateExercise(exercise._id, payload);
+      if (!ok) {
+        toast.error("Failed to update exercise. Please try again.");
+        return;
+      }
+      toast.success("Exercise updated successfully ✅");
+      onUpdated();
+      onClose();
+    } catch (error) {
+      console.error("Update exercise error:", error);
+      toast.error("Something went wrong. Please try again.");
+    }
   }
   return (
     <Dialog
