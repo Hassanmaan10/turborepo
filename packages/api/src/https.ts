@@ -44,7 +44,12 @@ export async function request(
     } else {
       return {
         ok: false as const,
-        error: (data as any)?.message || `Request failed (${res.status})`,
+        data, // 👈 include parsed data (may be null if not JSON)
+        error:
+          (data as any)?.message ||
+          (data as any)?.error ||
+          text || // fallback to raw text if no JSON message
+          `Request failed (${res.status})`,
         status: res.status,
       };
     }

@@ -54,11 +54,15 @@ export function CreateExerciseDialog({ onCreated }: { onCreated: () => void }) {
       return;
     }
 
+    console.log("📝 form values:", values);
+
     const payload: any = {
       ...values,
       targetedMuscles: csvToArray(values.targetedMuscles),
     };
     if (!payload.user) delete payload.user; // omit if empty
+
+    console.log("📦 payload to API:", payload);
 
     const ok = await createExercise(payload);
     if (!ok) return;

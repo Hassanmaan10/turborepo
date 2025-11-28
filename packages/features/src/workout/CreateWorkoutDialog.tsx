@@ -1,9 +1,12 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import csvToArray from "@workspace/ui/components/csv-to-array";
 import { getTokenCookie } from "@workspace/ui/lib/token-cookie";
-import { workoutFormSchema, WorkoutFormValues } from "@workspace/ui/lib/types";
-import { useState } from "react";
+import {
+  Exercise,
+  workoutFormSchema,
+  WorkoutFormValues,
+} from "@workspace/ui/lib/types";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { createWorkouts } from "@workspace/api/workouts/create-workouts";
 import {
@@ -18,6 +21,8 @@ import { Form } from "@workspace/ui/components/form";
 import FormFieldProps from "@workspace/ui/components/form-field";
 import FormSelectProps from "@workspace/ui/components/form-select";
 import FormTextAreaProps from "@workspace/ui/components/form-textarea";
+import { getExercises } from "@workspace/api/get-exercise";
+import FormDropDownMenu from "@workspace/ui/components/from-dropdown-menu";
 
 export default function CreateWorkoutDialog({
   onCreated,
@@ -25,12 +30,13 @@ export default function CreateWorkoutDialog({
   onCreated: () => void;
 }) {
   const [open, setOpen] = useState(false);
+  const [exerciseOptions, setExerciseOptions] = useState<Exercise[]>([]);
   const form = useForm<WorkoutFormValues>({
     resolver: zodResolver(workoutFormSchema),
     defaultValues: {
       title: "",
       description: "",
-      exercises: "",
+      exercises: [],
       user: "",
       image: "",
       intensity: "Low",
@@ -39,6 +45,14 @@ export default function CreateWorkoutDialog({
   });
 
   const pending = form.formState.isSubmitting;
+
+  useEffect(() => {
+    async function fetchExercises() {
+      const list = await getExercises();
+      setExerciseOptions(list as Exercise[]);
+    }
+    fetchExercises();
+  }, []);
 
   async function onSubmit(values: WorkoutFormValues) {
     const token = getTokenCookie();
@@ -49,7 +63,6 @@ export default function CreateWorkoutDialog({
 
     const payload: any = {
       ...values,
-      exercises: csvToArray(values.exercises),
     };
     if (!payload.user) delete payload.user; // omit if empty
 
@@ -58,7 +71,7 @@ export default function CreateWorkoutDialog({
 
     setOpen(false);
     form.reset();
-    onCreated;
+    onCreated();
   }
 
   return (
@@ -87,11 +100,15 @@ export default function CreateWorkoutDialog({
                 placeholder="Full Body Beginner"
                 type="text"
               />
-              <FormFieldProps
+
+              <FormDropDownMenu
                 name="exercises"
-                label="Exercise IDs"
-                placeholder="691d959ecd83e01bdbc23188, 69202dd0be506108637601cc"
-                type="text"
+                label="Exercise"
+                trigger="Select exercise"
+                options={exerciseOptions.map((ex) => ({
+                  label: ex.title ?? "Untitled exercise",
+                  value: ex._id,
+                }))}
               />
             </div>
 

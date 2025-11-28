@@ -23,7 +23,7 @@ export type ExerciseFormValues = z.infer<typeof exerciseFormSchema>;
 export const workoutFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
-  exercises: z.string().min(1, "At least one exercise ID is required"),
+  exercises: z.array(z.string()).min(1, "select at least one exercise"),
   user: z.string().optional(),
   image: z.string().url("Must be a valid URL").optional().or(z.literal("")),
   intensity: z.enum(["Low", "Moderate", "High"], {
