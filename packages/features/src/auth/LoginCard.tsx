@@ -18,24 +18,17 @@ import setTokenCookie from "@workspace/ui/lib/token-cookie";
 import { useRouter } from "next/navigation.js";
 import { useAuth } from "@workspace/ui/hooks/use-auth";
 import { toast } from "@workspace/ui/components/sonner";
-
-const formSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address." }),
-
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters." })
-    .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, {
-      message: "Password must include at least one letter and one number.",
-    }),
-});
+import {
+  LoginFormValues,
+  loginFormSchema,
+} from "@workspace/interfaces/auth/validation";
 
 export default function LoginCard() {
   const router = useRouter();
   const { login } = useAuth();
   // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -45,7 +38,7 @@ export default function LoginCard() {
   const pending = form.formState.isSubmitting;
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: LoginFormValues) {
     try {
       const res = await post("/api/auth/login", values);
 

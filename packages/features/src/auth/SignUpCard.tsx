@@ -17,58 +17,16 @@ import FormSelectProps from "@workspace/ui/components/form-select";
 import { post } from "@workspace/api/https";
 import { toast } from "@workspace/ui/components/sonner";
 import { useRouter } from "next/navigation";
-
-const formSchema = z.object({
-  // required: string
-  name: z
-    .string()
-    .trim()
-    .min(2, { message: "Name must be at least 2 characters." })
-    .max(50, { message: "Name must be at most 50 characters." }),
-
-  // required: string($email)
-  email: z
-    .string()
-    .trim()
-    .toLowerCase()
-    .email({ message: "Enter a valid email address." }),
-
-  // required: string, minLength: 6
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters." })
-    .max(72, { message: "Password must be at most 72 characters." }) // safe bcrypt limit
-    // OPTIONAL additive: require letter+number
-    .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, {
-      message: "Include at least one letter and one number.",
-    }),
-
-  // required: number($float)
-  weight: z.coerce
-    .number({ invalid_type_error: "Weight must be a number." })
-    .positive({ message: "Weight must be greater than 0." })
-    .max(500, { message: "Weight seems unrealistic." })
-    // OPTIONAL additive: allow one-decimal precision
-    .refine((v) => Number.isFinite(v), { message: "Invalid number." }),
-
-  // required: string (server accepts a string; we constrain to 3 options for UX)
-  goal: z.enum(["Lose Weight", "Gain Weight", "Maintain Weight"], {
-    errorMap: () => ({ message: "Choose a goal." }),
-  }),
-
-  // required: integer
-  age: z.coerce
-    .number({ invalid_type_error: "Age must be a number." })
-    .int({ message: "Age must be an integer." })
-    .min(1, { message: "Age must be at least 1." })
-    .max(120, { message: "Age seems unrealistic." }),
-});
+import {
+  signupFormSchema,
+  SignUpFormValues,
+} from "@workspace/interfaces/auth/validation";
 
 export default function SignUpCard() {
   const router = useRouter();
   // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<SignUpFormValues>({
+    resolver: zodResolver(signupFormSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -82,7 +40,7 @@ export default function SignUpCard() {
   const pending = form.formState.isSubmitting;
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: SignUpFormValues) {
     try {
       const res = await post("/api/auth/signup", values);
 
