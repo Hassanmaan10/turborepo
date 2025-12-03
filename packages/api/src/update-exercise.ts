@@ -1,4 +1,5 @@
 "use server";
+import { revalidatePath } from "next/cache";
 import { put } from "./https";
 import { getServerToken } from "./token-server";
 
@@ -17,5 +18,7 @@ export async function updateExercise(
     alert(res.error || "Failed to update exercise");
     return false;
   }
+  revalidatePath("/exercise");
+  revalidatePath(`/exercise/${id}`);
   return true;
 }
