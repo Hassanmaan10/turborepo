@@ -1,19 +1,9 @@
 "use client";
 import { Button } from "@workspace/ui/components/button";
 import { Card, CardContent, CardHeader } from "@workspace/ui/components/card";
-import { Badge, Clock, TrendingUp } from "lucide-react";
+import { Clock, TrendingUp } from "lucide-react";
 import Image from "next/image";
-
-export interface WorkoutProps {
-  _id: string;
-  title: string;
-  description: string;
-  exercises: string[];
-  image: string;
-  intensity: "Low" | "Moderate" | "High";
-  duration: number;
-  __v?: number;
-}
+import { WorkoutProps } from "@workspace/interfaces/workout/types";
 
 export default function WorkoutCard({
   title,
