@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import getWorkouts from "@workspace/api/workouts/get-workouts";
 import WorkoutCard from "./components/workout-card";
 import CreateWorkoutDialog from "./CreateWorkoutDialog";
-import { WorkoutProps } from "./components/workout-card";
+import { WorkoutProps } from "@workspace/interfaces/workout/types";
 import LoadingAuth from "@workspace/ui/components/loading-auth";
 import { toast } from "@workspace/ui/components/sonner";
 

@@ -1,11 +1,11 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getTokenCookie } from "@workspace/ui/lib/token-cookie";
+import { Exercise } from "@workspace/interfaces/exercise/types";
 import {
-  Exercise,
   workoutFormSchema,
   WorkoutFormValues,
-} from "@workspace/ui/lib/types";
+} from "@workspace/interfaces/workout/validation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { createWorkouts } from "@workspace/api/workouts/create-workouts";
