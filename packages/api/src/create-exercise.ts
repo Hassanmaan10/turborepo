@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { post } from "./https";
 import { getServerToken } from "./token-server";
 
@@ -16,5 +17,6 @@ export async function createExercise(payload: any): Promise<boolean> {
     console.error("❌ [createExercise] FAILED:", res.error, res.data);
     return false;
   }
+  revalidatePath("/exercise");
   return true;
 }
