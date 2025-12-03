@@ -10,6 +10,7 @@ import ExerciseContent from "@workspace/ui/components/excercise-content";
 import { Button } from "@workspace/ui/components/button";
 import Image from "next/image";
 import { useState } from "react";
+import { ExerciseCardProps } from "@workspace/interfaces/exercise/types";
 
 export interface Props {
   title?: string;
@@ -45,7 +46,7 @@ export default function ExerciseCard({
   onDelete,
   onEdit,
   showActions = true,
-}: Props) {
+}: ExerciseCardProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const handleDeleteClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

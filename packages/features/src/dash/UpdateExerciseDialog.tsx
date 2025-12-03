@@ -13,19 +13,13 @@ import FormFieldProps from "@workspace/ui/components/form-field";
 import FormSelectProps from "@workspace/ui/components/form-select";
 import { Button } from "@workspace/ui/components/button";
 import csvToArray from "@workspace/ui/components/csv-to-array";
+import { UpdateExerciseDialogProps } from "@workspace/interfaces/exercise/types";
 import {
-  Exercise,
   exerciseFormSchema,
   ExerciseFormValues,
-} from "@workspace/ui/lib/types";
-import { toast } from "@workspace/ui/components/sonner";
+} from "@workspace/interfaces/exercise/validation";
 
-interface UpdateExerciseDialogProps {
-  exercise: Exercise | null;
-  open: boolean;
-  onClose: () => void;
-  onUpdated: () => void;
-}
+import { toast } from "@workspace/ui/components/sonner";
 
 export function UpdateExerciseDialog({
   exercise,

@@ -1,5 +1,5 @@
 "use client";
-import { Exercise } from "@workspace/ui/lib/types";
+import { Exercise } from "@workspace/interfaces/exercise/types";
 import ExerciseCard from "@workspace/features/dash/components/exercise-card";
 
 export default function ExerciseDetails({

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Exercise } from "@workspace/ui/lib/types";
+import { Exercise } from "@workspace/interfaces/exercise/types";
 import { CreateExerciseDialog } from "./CreateExerciseDialog";
 import { getExercises } from "@workspace/api/get-exercise";
 import { deleteExercise } from "@workspace/api/delete-exercise";
