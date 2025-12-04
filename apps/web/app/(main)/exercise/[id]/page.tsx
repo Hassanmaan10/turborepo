@@ -1,5 +1,5 @@
 import ExerciseDetails from "@workspace/features/dash/ExerciseDetails";
-import { Exercise } from "@workspace/ui/lib/types";
+import { Exercise } from "@workspace/interfaces/exercise";
 import { getExerciseById } from "@workspace/api/get-exercise-by-id";
 import { getServerToken } from "@workspace/api/token-server";
 

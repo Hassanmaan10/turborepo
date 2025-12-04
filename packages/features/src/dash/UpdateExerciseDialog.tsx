@@ -13,11 +13,11 @@ import FormFieldProps from "@workspace/ui/components/form-field";
 import FormSelectProps from "@workspace/ui/components/form-select";
 import { Button } from "@workspace/ui/components/button";
 import csvToArray from "@workspace/ui/components/csv-to-array";
-import { UpdateExerciseDialogProps } from "@workspace/interfaces/exercise/types";
 import {
   exerciseFormSchema,
   ExerciseFormValues,
-} from "@workspace/interfaces/exercise/validation";
+  UpdateExerciseDialogProps,
+} from "@workspace/interfaces/exercise";
 
 import { toast } from "@workspace/ui/components/sonner";
 

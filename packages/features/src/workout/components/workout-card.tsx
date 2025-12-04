@@ -3,7 +3,7 @@ import { Button } from "@workspace/ui/components/button";
 import { Card, CardContent, CardHeader } from "@workspace/ui/components/card";
 import { Clock, TrendingUp } from "lucide-react";
 import Image from "next/image";
-import { WorkoutProps } from "@workspace/interfaces/workout/types";
+import { WorkoutProps } from "@workspace/interfaces/workout";
 
 export default function WorkoutCard({
   title,

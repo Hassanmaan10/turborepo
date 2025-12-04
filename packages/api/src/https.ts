@@ -1,4 +1,4 @@
-const BASE = "https://fitupapi-942q.onrender.com";
+const BASE = "https://fit-up-api-im2n.onrender.com";
 
 type RequestOptions = {
   token?: string;

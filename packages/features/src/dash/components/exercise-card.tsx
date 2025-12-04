@@ -10,26 +10,7 @@ import ExerciseContent from "@workspace/ui/components/excercise-content";
 import { Button } from "@workspace/ui/components/button";
 import Image from "next/image";
 import { useState } from "react";
-import { ExerciseCardProps } from "@workspace/interfaces/exercise/types";
-
-export interface Props {
-  title?: string;
-  description?: string;
-  category?: string;
-  duration: number;
-  intensity?: string;
-  sets?: number;
-  reps?: number;
-  rest?: number;
-  image?: string;
-  youtubeVideo?: string;
-  targetedMuscles?: string[];
-
-  onDelete: () => Promise<void> | void;
-  onEdit: () => void;
-
-  showActions?: boolean;
-}
+import { ExerciseCardProps } from "@workspace/interfaces/exercise";
 
 export default function ExerciseCard({
   title,
