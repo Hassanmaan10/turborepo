@@ -10,7 +10,6 @@ import {
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Form } from "@workspace/ui/components/form";
 import FormFieldProps from "@workspace/ui/components/form-field";
 import { post } from "@workspace/api/https";
@@ -18,10 +17,7 @@ import setTokenCookie from "@workspace/ui/lib/token-cookie";
 import { useRouter } from "next/navigation.js";
 import { useAuth } from "@workspace/ui/hooks/use-auth";
 import { toast } from "@workspace/ui/components/sonner";
-import {
-  LoginFormValues,
-  loginFormSchema,
-} from "@workspace/interfaces/auth/validation";
+import { LoginFormValues, loginFormSchema } from "@workspace/interfaces/auth";
 
 export default function LoginCard() {
   const router = useRouter();

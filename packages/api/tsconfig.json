@@ -7,7 +7,8 @@
     "paths": {
       "@workspace/ui/*": ["../ui/src/*"],
       "@workspace/features/*": ["../features/src/*"],
-      "@workspace/api/*": ["./src/*"]
+      "@workspace/api/*": ["./src/*"],
+      "@workspace/interfaces/*": ["../interfaces/src/*"]
     }
   },
   "include": ["src"]

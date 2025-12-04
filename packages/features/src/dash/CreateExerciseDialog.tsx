@@ -20,7 +20,7 @@ import { createExercise } from "@workspace/api/create-exercise";
 import {
   exerciseFormSchema,
   ExerciseFormValues,
-} from "@workspace/interfaces/exercise/validation";
+} from "@workspace/interfaces/exercise";
 import csvToArray from "@workspace/ui/components/csv-to-array";
 import FormTextAreaProps from "@workspace/ui/components/form-textarea";
 import { toast } from "@workspace/ui/components/sonner";

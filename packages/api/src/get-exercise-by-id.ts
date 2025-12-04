@@ -1,5 +1,5 @@
 "use server";
-import { Exercise } from "@workspace/ui/lib/types";
+import { Exercise } from "@workspace/interfaces/exercise/types";
 import { get } from "./https";
 
 export async function getExerciseById(

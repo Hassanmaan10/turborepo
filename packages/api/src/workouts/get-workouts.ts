@@ -3,7 +3,7 @@
 import { get } from "../https";
 import { getServerToken } from "../token-server";
 
-import { WorkoutProps } from "@workspace/features/workout/components/workout-card";
+import { WorkoutProps } from "@workspace/interfaces/workout";
 
 export default async function getWorkouts(): Promise<WorkoutProps[]> {
   const token = await getServerToken();
