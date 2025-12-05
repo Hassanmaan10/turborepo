@@ -18,22 +18,14 @@ export async function Login(payload: Login): Promise<AuthResult> {
       const firstError =
         parsed.error.errors[0]?.message ?? "Invalid email or password.";
 
-      return {
-        ok: false,
-        token: null,
-        message: firstError,
-      };
+      throw new Error(firstError);
     }
 
     // 2️⃣ Use the safe, parsed data to call the backend
     const res = await post("/api/auth/login", parsed.data);
 
     if (!res.ok) {
-      return {
-        ok: false,
-        token: null,
-        message: res.error ?? "Invalid Credentials. Please try again",
-      };
+      throw new Error(res.error ?? "Invalid Credentials. Please try again.");
     }
 
     // 3️⃣ Handle backend response (no extra Zod here)
@@ -44,11 +36,7 @@ export async function Login(payload: Login): Promise<AuthResult> {
     };
 
     if (!data?.status || !data.token) {
-      return {
-        ok: false,
-        token: null,
-        message: data?.message ?? "Invalid credentails. Please Try again",
-      };
+      throw new Error(data?.message ?? "Invalid credentials. Please try again");
     }
 
     // 4️⃣ Set token cookie on server
@@ -61,11 +49,16 @@ export async function Login(payload: Login): Promise<AuthResult> {
       message: data.message ?? "Logged in succesfully",
     };
   } catch (error) {
-    console.error("❌ [Login] Unexpected error:", error);
+    let message = "Something went wrong. Please try again.";
+
+    if (error instanceof Error && error.message) {
+      message = error.message;
+    }
+
     return {
       ok: false,
       token: null,
-      message: "Something went wrong. Please try again.",
+      message,
     };
   }
 }
