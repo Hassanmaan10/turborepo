@@ -1,3 +1,2 @@
-export type { WorkoutProps } from "./types";
-
-export { workoutFormSchema, type WorkoutFormValues } from "./validation";
+export * from "./types";
+export * from "./validation";

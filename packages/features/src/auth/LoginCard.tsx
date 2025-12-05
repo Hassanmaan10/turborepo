@@ -12,12 +12,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@workspace/ui/components/form";
 import FormFieldProps from "@workspace/ui/components/form-field";
-import { post } from "@workspace/api/https";
-import setTokenCookie from "@workspace/ui/lib/token-cookie";
 import { useRouter } from "next/navigation.js";
 import { useAuth } from "@workspace/ui/hooks/use-auth";
 import { toast } from "@workspace/ui/components/sonner";
 import { LoginFormValues, loginFormSchema } from "@workspace/interfaces/auth";
+import { Login } from "@workspace/api/auth/login";
 
 export default function LoginCard() {
   const router = useRouter();
@@ -36,21 +35,17 @@ export default function LoginCard() {
   // 2. Define a submit handler.
   async function onSubmit(values: LoginFormValues) {
     try {
-      const res = await post("/api/auth/login", values);
-
-      if (res.ok) {
-        const token = (res.data as any)?.token;
-        if (typeof token === "string") {
-          setTokenCookie(token);
-          login(token);
-        }
-        toast.success("Logged in successfully ✅");
-        router.push("/exercise");
+      const res = await Login(values);
+      if (!res.ok) {
+        toast.error(res.message);
         return;
       }
-      toast.error(res.error ?? "Invalid credentials. Please try again.");
+      if (res.token) {
+        login(res.token);
+      }
+      toast.success(res.message);
+      router.push("/exercise");
     } catch (error) {
-      console.error("Login error:", error);
       toast.error("Something went wrong. Please try again.");
     }
   }
