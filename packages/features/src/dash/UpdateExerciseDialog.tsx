@@ -14,8 +14,10 @@ import FormSelectProps from "@workspace/ui/components/form-select";
 import { Button } from "@workspace/ui/components/button";
 import csvToArray from "@workspace/ui/components/csv-to-array";
 import {
+  Category,
   exerciseFormSchema,
   ExerciseFormValues,
+  Intensity,
   UpdateExerciseDialogProps,
 } from "@workspace/interfaces/exercise";
 
@@ -32,9 +34,9 @@ export function UpdateExerciseDialog({
     defaultValues: {
       title: "",
       description: "",
-      category: "Cardio",
+      category: Category.CARDIO,
       duration: 5,
-      intensity: "Low",
+      intensity: Intensity.LOW,
       sets: 3,
       reps: 10,
       rest: 60,
@@ -120,9 +122,9 @@ export function UpdateExerciseDialog({
               name="category"
               label="Category"
               options={[
-                { label: "Cardio", value: "Cardio" },
-                { label: "Strength", value: "Strength" },
-                { label: "Flexibility", value: "Flexibility" },
+                { label: "Cardio", value: Category.CARDIO },
+                { label: "Strength", value: Category.STRENGTH },
+                { label: "Flexibility", value: Category.FLEXIBILITY },
               ]}
             />
 
@@ -137,9 +139,9 @@ export function UpdateExerciseDialog({
               name="intensity"
               label="Intensity"
               options={[
-                { label: "Low", value: "Low" },
-                { label: "Moderate", value: "Moderate" },
-                { label: "High", value: "High" },
+                { label: "Low", value: Intensity.LOW },
+                { label: "Moderate", value: Intensity.MODERATE },
+                { label: "High", value: Intensity.HIGH },
               ]}
             />
 

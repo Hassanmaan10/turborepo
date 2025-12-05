@@ -1,4 +1,7 @@
 import { z } from "zod";
+import { Goal, Login, ISignUp } from "./types";
+
+//Login
 
 export const loginFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -12,6 +15,13 @@ export const loginFormSchema = z.object({
 });
 
 export type LoginFormValues = z.infer<typeof loginFormSchema>;
+
+export function validateLogin(data: Login) {
+  const result = loginFormSchema.safeParse(data);
+  return result;
+}
+
+//SignUp
 
 export const signupFormSchema = z.object({
   // required: string
@@ -47,7 +57,7 @@ export const signupFormSchema = z.object({
     .refine((v) => Number.isFinite(v), { message: "Invalid number." }),
 
   // required: string (server accepts a string; we constrain to 3 options for UX)
-  goal: z.enum(["Lose Weight", "Gain Weight", "Maintain Weight"], {
+  goal: z.nativeEnum(Goal, {
     errorMap: () => ({ message: "Choose a goal." }),
   }),
 
@@ -60,3 +70,8 @@ export const signupFormSchema = z.object({
 });
 
 export type SignUpFormValues = z.infer<typeof signupFormSchema>;
+
+export function validateSignUp(data: ISignUp) {
+  const result = signupFormSchema.safeParse(data);
+  return result;
+}

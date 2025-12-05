@@ -1,6 +1,6 @@
 "use server";
 
-import { Props as Exercise } from "@workspace/features/dash/components/exercise-card";
+import { Exercise } from "@workspace/interfaces/exercise";
 import { getServerToken } from "./token-server";
 import { get } from "./https";
 

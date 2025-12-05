@@ -25,3 +25,15 @@ export interface UpdateExerciseDialogProps {
   onClose: () => void;
   onUpdated: () => void;
 }
+
+export enum Category {
+  CARDIO = "Cardio",
+  STRENGTH = "Strength",
+  FLEXIBILITY = "Flexibility",
+}
+
+export enum Intensity {
+  LOW = "Low",
+  MODERATE = "Moderate",
+  HIGH = "High",
+}

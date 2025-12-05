@@ -13,10 +13,14 @@ import { useForm } from "react-hook-form";
 import { Form } from "@workspace/ui/components/form";
 import FormFieldProps from "@workspace/ui/components/form-field";
 import FormSelectProps from "@workspace/ui/components/form-select";
-import { post } from "@workspace/api/https";
+import { SignUp } from "@workspace/api/auth/sign-up";
 import { toast } from "@workspace/ui/components/sonner";
 import { useRouter } from "next/navigation";
-import { signupFormSchema, SignUpFormValues } from "@workspace/interfaces/auth";
+import {
+  Goal,
+  signupFormSchema,
+  SignUpFormValues,
+} from "@workspace/interfaces/auth";
 
 export default function SignUpCard() {
   const router = useRouter();
@@ -29,7 +33,7 @@ export default function SignUpCard() {
       password: "",
       weight: 60,
       age: 18,
-      goal: "Maintain Weight",
+      goal: Goal.MAINTAIN_WEIGHT,
     },
   });
 
@@ -38,16 +42,14 @@ export default function SignUpCard() {
   // 2. Define a submit handler.
   async function onSubmit(values: SignUpFormValues) {
     try {
-      const res = await post("/api/auth/signup", values);
-
-      if (res.ok) {
-        toast.success("Signed up successfully ✅");
-        router.push("/login");
-      } else {
-        toast.error(res.error ?? "Failed to sign up. Please try again.");
+      const res = await SignUp(values);
+      if (!res.ok) {
+        toast.error(res.message);
+        return;
       }
+      toast.success(res.message || "Signed up successfully ✅");
+      router.push("/login");
     } catch (error) {
-      console.error("Signup error:", error);
       toast.error("Something went wrong. Please try again.");
     }
   }
@@ -56,7 +58,7 @@ export default function SignUpCard() {
     <>
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle>Sign in</CardTitle>
+          <CardTitle>Sign Up</CardTitle>
         </CardHeader>
         <CardContent>
           {" "}
@@ -98,9 +100,9 @@ export default function SignUpCard() {
                 name="goal"
                 label="Goal"
                 options={[
-                  { label: "Lose Weight", value: "Lose Weight" },
-                  { label: "Gain Weight", value: "Gain Weight" },
-                  { label: "Maintain Weight", value: "Maintain Weight" },
+                  { label: "Lose Weight", value: Goal.LOSE_WEIGHT },
+                  { label: "Gain Weight", value: Goal.GAIN_WEIGHT },
+                  { label: "Maintain Weight", value: Goal.MAINTAIN_WEIGHT },
                 ]}
                 disabled={pending}
               />

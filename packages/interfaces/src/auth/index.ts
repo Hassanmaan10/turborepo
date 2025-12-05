@@ -1,6 +1,2 @@
-export {
-  loginFormSchema,
-  signupFormSchema,
-  type LoginFormValues,
-  type SignUpFormValues,
-} from "./validation";
+export * from "./validation";
+export * from "./types";

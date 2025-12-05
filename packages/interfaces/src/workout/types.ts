@@ -8,3 +8,9 @@ export interface WorkoutProps {
   duration: number;
   __v?: number;
 }
+
+export enum Intensity {
+  LOW = "low",
+  MODERATE = "Moderate",
+  HIGH = "High",
+}

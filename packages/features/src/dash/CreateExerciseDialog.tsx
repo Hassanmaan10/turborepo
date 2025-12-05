@@ -15,11 +15,12 @@ import { Form } from "@workspace/ui/components/form";
 import FormFieldProps from "@workspace/ui/components/form-field";
 import FormSelectProps from "@workspace/ui/components/form-select";
 import { useState } from "react";
-import { getTokenCookie } from "@workspace/ui/lib/token-cookie";
 import { createExercise } from "@workspace/api/create-exercise";
 import {
+  Category,
   exerciseFormSchema,
   ExerciseFormValues,
+  Intensity,
 } from "@workspace/interfaces/exercise";
 import csvToArray from "@workspace/ui/components/csv-to-array";
 import FormTextAreaProps from "@workspace/ui/components/form-textarea";
@@ -33,9 +34,9 @@ export function CreateExerciseDialog({ onCreated }: { onCreated: () => void }) {
     defaultValues: {
       title: "",
       description: "",
-      category: "Cardio",
+      category: Category.CARDIO,
       duration: 5,
-      intensity: "Low",
+      intensity: Intensity.LOW,
       sets: 3,
       reps: 10,
       rest: 60,
@@ -49,12 +50,6 @@ export function CreateExerciseDialog({ onCreated }: { onCreated: () => void }) {
 
   // 2. Define a submit handler.
   async function onSubmit(values: ExerciseFormValues) {
-    const token = getTokenCookie();
-    if (!token) {
-      alert("Please login again.");
-      return;
-    }
-
     const payload: any = {
       ...values,
       targetedMuscles: csvToArray(values.targetedMuscles),
@@ -111,9 +106,9 @@ export function CreateExerciseDialog({ onCreated }: { onCreated: () => void }) {
               name="category"
               label="Category"
               options={[
-                { label: "Cardio", value: "Cardio" },
-                { label: "Strength", value: "Strength" },
-                { label: "Flexibility", value: "Flexibility" },
+                { label: "Cardio", value: Category.CARDIO },
+                { label: "Strength", value: Category.STRENGTH },
+                { label: "Flexibility", value: Category.FLEXIBILITY },
               ]}
             />
             <FormFieldProps
@@ -126,9 +121,9 @@ export function CreateExerciseDialog({ onCreated }: { onCreated: () => void }) {
               name="intensity"
               label="Intensity"
               options={[
-                { label: "Low", value: "Low" },
-                { label: "Moderate", value: "Moderate" },
-                { label: "High", value: "High" },
+                { label: "Low", value: Intensity.LOW },
+                { label: "Moderate", value: Intensity.MODERATE },
+                { label: "High", value: Intensity.HIGH },
               ]}
             />
 
