@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Goal, ISignUp } from "./types";
+import { AuthResponseData, Goal, ISignUp } from "./types";
 
 //Login
 
@@ -24,7 +24,7 @@ export const loginResultSchema = z.object({
 
 export type LoginApiResponse = z.infer<typeof loginResultSchema>;
 
-export function validateLoginResult(data: unknown): LoginApiResponse {
+export function validateLogin(data: AuthResponseData): LoginApiResponse {
   const result = loginResultSchema.safeParse(data);
 
   if (!result.success) {
@@ -84,7 +84,20 @@ export const signupFormSchema = z.object({
 
 export type SignUpFormValues = z.infer<typeof signupFormSchema>;
 
-export function validateSignUp(data: ISignUp) {
-  const result = signupFormSchema.safeParse(data);
-  return result;
+export const signupResultSchema = z.object({
+  status: z.boolean(),
+  message: z.string(),
+  token: z.string(),
+});
+
+export type SignUpApiResponse = z.infer<typeof signupResultSchema>;
+
+export function validateSignUpResult(
+  data: AuthResponseData
+): SignUpApiResponse {
+  const result = signupResultSchema.safeParse(data);
+  if (!result.success) {
+    throw new Error("Invalid signup response from server.");
+  }
+  return result.data;
 }

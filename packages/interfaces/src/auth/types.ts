@@ -23,3 +23,9 @@ export interface AuthResult {
   token: string | null;
   message: string;
 }
+
+export interface AuthResponseData {
+  status: boolean;
+  message: string;
+  token: string;
+}
