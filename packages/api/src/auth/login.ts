@@ -17,25 +17,22 @@ export async function Login(payload: Login): Promise<AuthResult> {
       throw new Error(res.error ?? "Invalid Credentials. Please try again.");
     }
 
-    const data = validateLoginResult(res.data);
+    const { status, message, token } = validateLoginResult(res.data);
 
-    if (!data.status) {
-      throw new Error(data.message ?? "Invalid credentials. Please try again");
+    if (!status) {
+      throw new Error(message ?? "Invalid credentials. Please try again");
     }
 
-    await setServerToken(data.token);
+    await setServerToken(token);
 
     return {
-      ok: true,
-      token: data.token,
-      message: data.message ?? "Logged in succesfully",
+      ok: status,
+      token: token,
+      message: message ?? "Logged in succesfully",
     };
   } catch (error) {
-    let message = "Something went wrong. Please try again.";
-
-    if (error instanceof Error && error.message) {
-      message = error.message;
-    }
+    const message =
+      (error as Error).message || "Something went wrong. Please try again.";
 
     return {
       ok: false,

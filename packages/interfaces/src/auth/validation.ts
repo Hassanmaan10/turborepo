@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Goal, Login, ISignUp } from "./types";
+import { Goal, ISignUp } from "./types";
 
 //Login
 
