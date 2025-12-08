@@ -19,7 +19,7 @@ export interface ISignUp {
 }
 
 export interface AuthResult {
-  ok: boolean;
+  status: boolean;
   token: string | null;
   message: string;
 }

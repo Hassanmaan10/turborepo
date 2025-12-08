@@ -3,7 +3,7 @@
 import {
   AuthResult,
   type Login,
-  validateLogin,
+  validateLoginResult,
 } from "@workspace/interfaces/auth";
 
 import { post } from "../https";
@@ -17,7 +17,7 @@ export async function Login(payload: Login): Promise<AuthResult> {
       throw new Error(res.error ?? "Invalid Credentials. Please try again.");
     }
 
-    const { status, message, token } = validateLogin(res.data);
+    const { status, message, token } = validateLoginResult(res.data);
 
     if (!status) {
       throw new Error(message ?? "Invalid credentials. Please try again");
@@ -26,8 +26,8 @@ export async function Login(payload: Login): Promise<AuthResult> {
     await setServerToken(token);
 
     return {
-      ok: status,
-      token: token,
+      status: true,
+      token,
       message: message ?? "Logged in succesfully",
     };
   } catch (error) {
@@ -35,7 +35,7 @@ export async function Login(payload: Login): Promise<AuthResult> {
       (error as Error).message || "Something went wrong. Please try again.";
 
     return {
-      ok: false,
+      status: false,
       token: null,
       message,
     };

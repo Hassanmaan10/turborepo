@@ -37,3 +37,21 @@ export enum Intensity {
   MODERATE = "Moderate",
   HIGH = "High",
 }
+
+export interface createExercisePayload {
+  title: string;
+  descripton: string;
+  category: Category;
+  duration: number;
+  intensity: Intensity;
+  sets: number;
+  reps: number;
+  image: string;
+  youtubeVideo: string;
+  targtedMuscles: string[];
+}
+
+export interface createExerciseApiResponse {
+  status: boolean;
+  message: string;
+}

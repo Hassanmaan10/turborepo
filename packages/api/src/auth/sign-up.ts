@@ -20,7 +20,7 @@ export async function SignUp(payload: ISignUp): Promise<AuthResult> {
       throw new Error(message ?? "Failed to sign up. Please try again.");
     }
     return {
-      ok: true,
+      status: true,
       token,
       message: message ?? "User Created succesfully",
     };
@@ -29,7 +29,7 @@ export async function SignUp(payload: ISignUp): Promise<AuthResult> {
       (error as Error).message || "Something went wrong. Please try again.";
 
     return {
-      ok: false,
+      status: false,
       token: null,
       message,
     };

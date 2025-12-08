@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Category, Intensity } from "./types";
+import { Category, createExerciseApiResponse, Intensity } from "./types";
 
 //exercise shcema
 export const exerciseFormSchema = z.object({
@@ -18,3 +18,16 @@ export const exerciseFormSchema = z.object({
 });
 
 export type ExerciseFormValues = z.infer<typeof exerciseFormSchema>;
+
+export const createExerciseResultSchema = z.object({
+  status: z.boolean(),
+  message: z.string(),
+});
+
+export function validateCreateExerciseResult(data: createExerciseApiResponse) {
+  const result = createExerciseResultSchema.safeParse(data);
+  if (!result.success) {
+    throw new Error("Invalid create exercise response from server.");
+  }
+  return result.data;
+}

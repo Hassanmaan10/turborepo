@@ -43,7 +43,7 @@ export default function SignUpCard() {
   async function onSubmit(values: SignUpFormValues) {
     try {
       const res = await SignUp(values);
-      if (!res.ok) {
+      if (!res.status) {
         toast.error(res.message);
         return;
       }
