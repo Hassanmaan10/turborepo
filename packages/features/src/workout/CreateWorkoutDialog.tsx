@@ -70,6 +70,7 @@ export default function CreateWorkoutDialog({
 
     try {
       const ok = await createWorkouts(payload);
+
       if (!ok) {
         toast.error("Failed to create workout. Please try again.");
         return;

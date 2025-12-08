@@ -36,7 +36,7 @@ export default function LoginCard() {
   async function onSubmit(values: LoginFormValues) {
     try {
       const res = await Login(values);
-      if (!res.ok) {
+      if (!res.status) {
         toast.error(res.message);
         return;
       }

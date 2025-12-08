@@ -22,9 +22,7 @@ export const loginResultSchema = z.object({
   token: z.string(),
 });
 
-export type LoginApiResponse = z.infer<typeof loginResultSchema>;
-
-export function validateLogin(data: AuthResponseData): LoginApiResponse {
+export function validateLoginResult(data: AuthResponseData) {
   const result = loginResultSchema.safeParse(data);
 
   if (!result.success) {
@@ -90,11 +88,7 @@ export const signupResultSchema = z.object({
   token: z.string(),
 });
 
-export type SignUpApiResponse = z.infer<typeof signupResultSchema>;
-
-export function validateSignUpResult(
-  data: AuthResponseData
-): SignUpApiResponse {
+export function validateSignUpResult(data: AuthResponseData) {
   const result = signupResultSchema.safeParse(data);
   if (!result.success) {
     throw new Error("Invalid signup response from server.");
