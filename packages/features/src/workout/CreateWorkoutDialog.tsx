@@ -24,6 +24,7 @@ import FormTextAreaProps from "@workspace/ui/components/form-textarea";
 import { getExercises } from "@workspace/api/get-exercise";
 import FormDropDownMenu from "@workspace/ui/components/from-dropdown-menu";
 import { toast } from "@workspace/ui/components/sonner";
+import { Intensity } from "@workspace/interfaces/workout";
 
 export default function CreateWorkoutDialog({
   onCreated,
@@ -40,7 +41,7 @@ export default function CreateWorkoutDialog({
       exercises: [],
       user: "",
       image: "",
-      intensity: "Low",
+      intensity: Intensity.LOW,
       duration: 30,
     },
   });

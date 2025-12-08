@@ -3,7 +3,7 @@
 import {
   AuthResult,
   type Login,
-  validateLoginResult,
+  validateLogin,
 } from "@workspace/interfaces/auth";
 
 import { post } from "../https";
@@ -17,7 +17,7 @@ export async function Login(payload: Login): Promise<AuthResult> {
       throw new Error(res.error ?? "Invalid Credentials. Please try again.");
     }
 
-    const { status, message, token } = validateLoginResult(res.data);
+    const { status, message, token } = validateLogin(res.data);
 
     if (!status) {
       throw new Error(message ?? "Invalid credentials. Please try again");

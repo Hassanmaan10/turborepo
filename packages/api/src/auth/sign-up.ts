@@ -1,40 +1,37 @@
 "use server";
 
-import { AuthResult, ISignUp } from "@workspace/interfaces/auth";
+import {
+  AuthResult,
+  ISignUp,
+  validateSignUpResult,
+} from "@workspace/interfaces/auth";
 import { post } from "../https";
 
 export async function SignUp(payload: ISignUp): Promise<AuthResult> {
   try {
     const res = await post("/api/auth/signup", payload);
     if (!res.ok) {
-      return {
-        ok: false,
-        token: null,
-        message: res.error ?? "Falied to sign up. Please try again.",
-      };
+      throw new Error(res.error ?? "Invalid Credentials. Please try again.");
     }
-    const data = res.data as {
-      status: boolean;
-      message: string;
-      token?: string;
-    };
-    if (!data.status || !data.token) {
-      return {
-        ok: false,
-        token: null,
-        message: data.message ?? "Failed to sign up. Please try again.",
-      };
+
+    const { status, message, token } = validateSignUpResult(res.data);
+
+    if (!status) {
+      throw new Error(message ?? "Failed to sign up. Please try again.");
     }
     return {
       ok: true,
-      token: data.token,
-      message: data.message ?? "User Created succesfully",
+      token,
+      message: message ?? "User Created succesfully",
     };
   } catch (error) {
+    const message =
+      (error as Error).message || "Something went wrong. Please try again.";
+
     return {
       ok: false,
       token: null,
-      message: "Something went wrong. Please try again.",
+      message,
     };
   }
 }
