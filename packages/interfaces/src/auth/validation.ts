@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { AuthResponseData, Goal, ISignUp } from "./types";
+import { AuthResponseData, Goal } from "./types";
 
 //Login
 
@@ -23,13 +23,7 @@ export const loginResultSchema = z.object({
 });
 
 export function validateLoginResult(data: AuthResponseData) {
-  const result = loginResultSchema.safeParse(data);
-
-  if (!result.success) {
-    throw new Error("Invalid login response from server.");
-  }
-
-  return result.data;
+  return loginResultSchema.parse(data);
 }
 
 //SignUp
@@ -89,9 +83,5 @@ export const signupResultSchema = z.object({
 });
 
 export function validateSignUpResult(data: AuthResponseData) {
-  const result = signupResultSchema.safeParse(data);
-  if (!result.success) {
-    throw new Error("Invalid signup response from server.");
-  }
-  return result.data;
+  return signupResultSchema.parse(data);
 }

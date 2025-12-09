@@ -19,21 +19,11 @@ export async function createExercise(
     }
     const res = await post("/api/exercise/create", payload, { token });
 
-    if (!res.ok) {
-      throw new Error(
-        res.error ?? "Failed to create exercise. Please try again"
-      );
-    }
-
     const { status, message } = validateCreateExerciseResult(res.data);
-
-    if (!status) {
-      throw new Error(message ?? "Invalid credentials. Please try again");
-    }
 
     revalidatePath("/exercise");
     return {
-      status: true,
+      status,
       message: message ?? "Exercise created sucessfully.",
     };
   } catch (error) {

@@ -10,17 +10,11 @@ import { post } from "../https";
 export async function SignUp(payload: ISignUp): Promise<AuthResult> {
   try {
     const res = await post("/api/auth/signup", payload);
-    if (!res.ok) {
-      throw new Error(res.error ?? "Invalid Credentials. Please try again.");
-    }
 
     const { status, message, token } = validateSignUpResult(res.data);
 
-    if (!status) {
-      throw new Error(message ?? "Failed to sign up. Please try again.");
-    }
     return {
-      status: true,
+      status,
       token,
       message: message ?? "User Created succesfully",
     };
