@@ -1,5 +1,10 @@
 import { z } from "zod";
-import { Category, getExerciseApiResponse, Intensity } from "./types";
+import {
+  Category,
+  getExerciseApiResponse,
+  getExerciseByIdApiResponse,
+  Intensity,
+} from "./types";
 
 //exercise shcema
 export const exerciseFormSchema = z.object({
@@ -17,6 +22,21 @@ export const exerciseFormSchema = z.object({
   user: z.string().min(1, "User id is required").optional(),
 });
 
+const exerciseShape = z.object({
+  _id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  category: z.nativeEnum(Category),
+  duration: z.number(),
+  intensity: z.nativeEnum(Intensity),
+  sets: z.number(),
+  reps: z.number(),
+  rest: z.number(),
+  image: z.string(),
+  youtubeVideo: z.string(),
+  targetedMuscles: z.array(z.string()),
+});
+
 export type ExerciseFormValues = z.infer<typeof exerciseFormSchema>;
 
 export const createExerciseResultSchema = z.object({
@@ -31,24 +51,20 @@ export function validateCreateExerciseResult(data: unknown) {
 export const getExerciseResultSchema = z.object({
   status: z.boolean(),
   results: z.number(),
-  data: z.array(
-    z.object({
-      _id: z.string(),
-      title: z.string(),
-      description: z.string(),
-      category: z.nativeEnum(Category),
-      duration: z.number(),
-      intensity: z.nativeEnum(Intensity),
-      sets: z.number(),
-      reps: z.number(),
-      rest: z.number(),
-      image: z.string(),
-      youtubeVideo: z.string(),
-      targetedMuscles: z.array(z.string()),
-    })
-  ),
+  data: z.array(exerciseShape),
 });
 
 export function validateGetExerciseResult(data: getExerciseApiResponse) {
   return getExerciseResultSchema.parse(data);
+}
+
+export const getExerciseByIdResultSchema = z.object({
+  status: z.boolean(),
+  data: exerciseShape.nullable(),
+});
+
+export function validateGetExerciseByIdResult(
+  data: getExerciseByIdApiResponse
+) {
+  return getExerciseByIdResultSchema.parse(data);
 }
