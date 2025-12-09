@@ -1,30 +1,25 @@
 "use server";
-import { ExerciseCardProps } from "@workspace/interfaces/exercise/types";
+import { getExerciseByIdApiResponse } from "@workspace/interfaces/exercise/types";
 import { get } from "./https";
+import { validateGetExerciseByIdResult } from "@workspace/interfaces/exercise";
 
 export async function getExerciseById(
   id: string,
   token: string | undefined
-): Promise<ExerciseCardProps | null> {
-  if (!token) {
-    console.error("No auth token, please login");
-    return null;
+): Promise<getExerciseByIdApiResponse> {
+  try {
+    if (!token) {
+      throw new Error("Login again");
+    }
+
+    const res = await get(`/api/exercise/${id}`, { token });
+
+    const parsed = validateGetExerciseByIdResult(res.data);
+    return parsed;
+  } catch (error) {
+    return {
+      status: false,
+      data: null,
+    };
   }
-
-  const res = await get(`/api/exercise/${id}`, { token });
-  console.log("the get by id", res.data);
-
-  if (!res.ok) {
-    console.error(res.error || `Failed to fetch exercise with id ${id}`);
-    return null;
-  }
-
-  const body = res.data as { data?: ExerciseCardProps } | null;
-
-  if (!body?.data) {
-    console.error("Response did not contain data field");
-    return null;
-  }
-
-  return body.data;
 }

@@ -1,5 +1,5 @@
-export interface ExerciseCardProps {
-  _id?: string;
+export interface Exercise {
+  _id: string;
   title: string;
   description: string;
   category: Category;
@@ -11,7 +11,9 @@ export interface ExerciseCardProps {
   image: string;
   youtubeVideo: string;
   targetedMuscles: string[];
+}
 
+export interface ExerciseCardProps extends Exercise {
   onDelete: () => Promise<void> | void;
   onEdit: () => void;
   showActions?: boolean;
@@ -55,23 +57,13 @@ export interface createExerciseApiResponse {
   message: string;
 }
 
-export interface Exercise {
-  _id: string;
-  title: string;
-  description: string;
-  category: Category;
-  duration: number;
-  intensity: Intensity;
-  sets: number;
-  reps: number;
-  rest: number;
-  image: string;
-  youtubeVideo: string;
-  targetedMuscles: string[];
-}
-
 export interface getExerciseApiResponse {
   status: boolean;
   results: number;
   data: Exercise[];
+}
+
+export interface getExerciseByIdApiResponse {
+  status: boolean;
+  data: Exercise | null;
 }

@@ -1,11 +1,11 @@
 "use client";
-import { ExerciseCardProps } from "@workspace/interfaces/exercise/types";
+import { Exercise } from "@workspace/interfaces/exercise/types";
 import ExerciseCard from "@workspace/features/dash/components/exercise-card";
 
 export default function ExerciseDetails({
   exercise,
 }: {
-  exercise: ExerciseCardProps | null;
+  exercise: Exercise | null;
 }) {
   if (!exercise) {
     return <main className="p-4">Exercise not found.</main>;
@@ -15,6 +15,7 @@ export default function ExerciseDetails({
     <main className="p-4 flex flex-col items-center justify-center  min-h-dvh gap-3">
       <h1 className="text-2xl font-semibold">Exercise details</h1>
       <ExerciseCard
+        _id={exercise._id}
         title={exercise.title}
         description={exercise.description}
         category={exercise.category}
