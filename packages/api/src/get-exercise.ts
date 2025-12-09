@@ -1,19 +1,26 @@
 "use server";
 
-import { Exercise } from "@workspace/interfaces/exercise";
+import {
+  getExerciseApiResponse,
+  validateGetExerciseResult,
+} from "@workspace/interfaces/exercise";
 import { getServerToken } from "./token-server";
 import { get } from "./https";
 
-export async function getExercises(): Promise<Exercise[]> {
-  const token = await getServerToken();
-  if (!token) return [];
-
-  const res = await get("/api/exercise", { token });
-
-  if (!res.ok) {
-    console.error(res.error);
-    return [];
+export async function getExercises(): Promise<getExerciseApiResponse> {
+  try {
+    const token = await getServerToken();
+    if (!token) {
+      throw new Error("Please login again");
+    }
+    const res = await get("/api/exercise", { token });
+    const parsed = validateGetExerciseResult(res.data);
+    return parsed;
+  } catch (error) {
+    return {
+      status: false,
+      results: 0,
+      data: [],
+    };
   }
-  const data = res.data;
-  return Array.isArray(data?.data) ? data.data : [];
 }

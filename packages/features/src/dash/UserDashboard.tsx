@@ -30,7 +30,7 @@ export default function UserDashboard() {
         setItems([]);
         return;
       }
-      setItems(list as Exercise[]);
+      setItems(list.data);
     } catch (error) {
       console.error("Error fetching exercises:", error);
       toast.error("Something went wrong while loading exercises.");

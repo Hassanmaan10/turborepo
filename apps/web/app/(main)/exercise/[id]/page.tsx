@@ -1,5 +1,5 @@
 import ExerciseDetails from "@workspace/features/dash/ExerciseDetails";
-import { Exercise } from "@workspace/interfaces/exercise";
+import { ExerciseCardProps } from "@workspace/interfaces/exercise";
 import { getExerciseById } from "@workspace/api/get-exercise-by-id";
 import { getServerToken } from "@workspace/api/token-server";
 
@@ -10,6 +10,6 @@ export default async function ExerciseDetailsPage({
 }) {
   const { id } = await params;
   const token = await getServerToken();
-  const exercise: Exercise | null = await getExerciseById(id, token);
+  const exercise: ExerciseCardProps | null = await getExerciseById(id, token);
   return <ExerciseDetails exercise={exercise} />;
 }

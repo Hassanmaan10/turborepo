@@ -13,20 +13,12 @@ export async function Login(payload: Login): Promise<AuthResult> {
   try {
     const res = await post("/api/auth/login", payload);
 
-    if (!res.ok) {
-      throw new Error(res.error ?? "Invalid Credentials. Please try again.");
-    }
-
     const { status, message, token } = validateLoginResult(res.data);
-
-    if (!status) {
-      throw new Error(message ?? "Invalid credentials. Please try again");
-    }
 
     await setServerToken(token);
 
     return {
-      status: true,
+      status,
       token,
       message: message ?? "Logged in succesfully",
     };

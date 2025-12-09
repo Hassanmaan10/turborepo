@@ -1,23 +1,21 @@
 export interface ExerciseCardProps {
-  title?: string;
-  description?: string;
-  category?: string;
+  _id?: string;
+  title: string;
+  description: string;
+  category: Category;
   duration: number;
-  intensity?: string;
-  sets?: number;
-  reps?: number;
-  rest?: number;
-  image?: string;
-  youtubeVideo?: string;
-  targetedMuscles?: string[];
+  intensity: Intensity;
+  sets: number;
+  reps: number;
+  rest: number;
+  image: string;
+  youtubeVideo: string;
+  targetedMuscles: string[];
 
   onDelete: () => Promise<void> | void;
   onEdit: () => void;
-
   showActions?: boolean;
 }
-
-export type Exercise = ExerciseCardProps & { _id: string };
 
 export interface UpdateExerciseDialogProps {
   exercise: Exercise | null;
@@ -40,18 +38,40 @@ export enum Intensity {
 
 export interface createExercisePayload {
   title: string;
-  descripton: string;
+  description: string;
   category: Category;
   duration: number;
   intensity: Intensity;
   sets: number;
   reps: number;
-  image: string;
-  youtubeVideo: string;
-  targtedMuscles: string[];
+  rest: number;
+  image?: string;
+  youtubeVideo?: string;
+  targtedMuscles: string;
 }
 
 export interface createExerciseApiResponse {
   status: boolean;
   message: string;
+}
+
+export interface Exercise {
+  _id: string;
+  title: string;
+  description: string;
+  category: Category;
+  duration: number;
+  intensity: Intensity;
+  sets: number;
+  reps: number;
+  rest: number;
+  image: string;
+  youtubeVideo: string;
+  targetedMuscles: string[];
+}
+
+export interface getExerciseApiResponse {
+  status: boolean;
+  results: number;
+  data: Exercise[];
 }
