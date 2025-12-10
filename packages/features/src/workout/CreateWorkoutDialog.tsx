@@ -1,6 +1,5 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getTokenCookie } from "@workspace/ui/lib/token-cookie";
 import { Exercise } from "@workspace/interfaces/exercise/types";
 import {
   workoutFormSchema,
@@ -24,7 +23,7 @@ import FormTextAreaProps from "@workspace/ui/components/form-textarea";
 import { getExercises } from "@workspace/api/get-exercise";
 import FormDropDownMenu from "@workspace/ui/components/from-dropdown-menu";
 import { toast } from "@workspace/ui/components/sonner";
-import { Intensity } from "@workspace/interfaces/workout";
+import { WorkoutIntensity } from "@workspace/interfaces/workout";
 
 export default function CreateWorkoutDialog({
   onCreated,
@@ -39,9 +38,8 @@ export default function CreateWorkoutDialog({
       title: "",
       description: "",
       exercises: [],
-      user: "",
       image: "",
-      intensity: Intensity.LOW,
+      intensity: WorkoutIntensity.LOW,
       duration: 30,
     },
   });
@@ -51,18 +49,12 @@ export default function CreateWorkoutDialog({
   useEffect(() => {
     async function fetchExercises() {
       const list = await getExercises();
-      setExerciseOptions(list as Exercise[]);
+      setExerciseOptions(list.data);
     }
     fetchExercises();
   }, []);
 
   async function onSubmit(values: WorkoutFormValues) {
-    const token = getTokenCookie();
-    if (!token) {
-      toast.error("Please log in again.");
-      return;
-    }
-
     const payload: any = {
       ...values,
     };
