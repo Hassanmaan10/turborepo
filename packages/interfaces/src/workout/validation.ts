@@ -2,8 +2,10 @@ import { z } from "zod";
 import {
   CreateWorkoutApiResponse,
   GetWorkoutsApiResponse,
+  GetWorkoutByIdApiResponse,
   WorkoutIntensity,
 } from "./types";
+import { exerciseShape } from "../exercise";
 
 //workout schema
 export const workoutFormSchema = z.object({
@@ -45,4 +47,24 @@ export const getWorkoutsResultSchema = z.object({
 
 export function validateGetWorkoutResult(data: GetWorkoutsApiResponse) {
   return getWorkoutsResultSchema.parse(data);
+}
+
+export const workoutDetailShape = z.object({
+  _id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  exercises: z.array(exerciseShape),
+  user: z.string(),
+  image: z.string(),
+  intensity: z.nativeEnum(WorkoutIntensity),
+  duration: z.number(),
+});
+
+export const getWorkoutByIdResultSchema = z.object({
+  status: z.boolean(),
+  workout: workoutDetailShape.nullable(),
+});
+
+export function validateGetWorkoutByIdResult(data: GetWorkoutByIdApiResponse) {
+  return getWorkoutByIdResultSchema.parse(data);
 }

@@ -24,7 +24,7 @@ export const exerciseFormSchema = z.object({
   user: z.string().min(1, "User id is required").optional(),
 });
 
-const exerciseShape = z.object({
+export const exerciseShape = z.object({
   _id: z.string(),
   title: z.string(),
   description: z.string(),
