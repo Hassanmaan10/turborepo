@@ -6,7 +6,7 @@ import { getServerToken } from "../token-server";
 import {
   CreateWorkoutApiResponse,
   CreateWorkoutPayload,
-  createWorkoutResultSchema,
+  validateCreateWorkoutResult,
 } from "@workspace/interfaces/workout";
 
 export async function createWorkouts(
@@ -18,7 +18,7 @@ export async function createWorkouts(
       throw new Error("Please login again");
     }
     const res = await post("/api/workout/create", payload, { token });
-    const parsed = createWorkoutResultSchema.parse(res.data);
+    const parsed = validateCreateWorkoutResult(res.data);
     revalidatePath("/workout");
     return parsed;
   } catch (error) {

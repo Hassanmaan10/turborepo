@@ -4,12 +4,12 @@ import { useEffect, useState, useCallback } from "react";
 import getWorkouts from "@workspace/api/workouts/get-workouts";
 import WorkoutCard from "./components/workout-card";
 import CreateWorkoutDialog from "./CreateWorkoutDialog";
-import { WorkoutProps } from "@workspace/interfaces/workout";
+import { Workout } from "@workspace/interfaces/workout";
 import LoadingAuth from "@workspace/ui/components/loading-auth";
 import { toast } from "@workspace/ui/components/sonner";
 
 export default function WorkoutPage() {
-  const [workouts, setWorkouts] = useState<WorkoutProps[]>([]);
+  const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchWorkouts = useCallback(async () => {
@@ -21,9 +21,8 @@ export default function WorkoutPage() {
         setWorkouts([]);
         return;
       }
-      setWorkouts(list);
+      setWorkouts(list.workouts);
     } catch (error) {
-      console.error("Error fetching workouts:", error);
       toast.error("Something went wrong while loading workouts.");
       setWorkouts([]);
     } finally {

@@ -28,3 +28,8 @@ export interface CreateWorkoutApiResponse {
   message: string;
   workout: Workout | null;
 }
+
+export interface GetWorkoutsApiResponse {
+  status: boolean;
+  workouts: Workout[];
+}

@@ -73,7 +73,6 @@ export default function CreateWorkoutDialog({
       form.reset();
       onCreated();
     } catch (error) {
-      console.error("Create workout error:", error);
       toast.error("Something went wrong. Please try again.");
     }
   }
@@ -133,9 +132,9 @@ export default function CreateWorkoutDialog({
               name="intensity"
               label="Intensity"
               options={[
-                { label: "Low", value: "Low" },
-                { label: "Moderate", value: "Moderate" },
-                { label: "High", value: "High" },
+                { label: "Low", value: WorkoutIntensity.LOW },
+                { label: "Moderate", value: WorkoutIntensity.MODERATE },
+                { label: "High", value: WorkoutIntensity.HIGH },
               ]}
             />
 
