@@ -1,3 +1,5 @@
+import { Exercise } from "../exercise";
+
 export enum WorkoutIntensity {
   LOW = "low",
   MODERATE = "Moderate",
@@ -8,7 +10,7 @@ export interface Workout {
   title: string;
   description: string;
   exercises: string[];
-  user: string;
+  user?: string;
   image: string;
   intensity: WorkoutIntensity;
   duration: number;
@@ -32,4 +34,20 @@ export interface CreateWorkoutApiResponse {
 export interface GetWorkoutsApiResponse {
   status: boolean;
   workouts: Workout[];
+}
+
+export interface WorkoutDetails {
+  _id: string;
+  title: string;
+  description: string;
+  exercises: Exercise[];
+  user: string;
+  image: string;
+  intensity: WorkoutIntensity;
+  duration: number;
+}
+
+export interface GetWorkoutByIdApiResponse {
+  status: boolean;
+  workout: WorkoutDetails | null;
 }
