@@ -1,6 +1,7 @@
 import { z } from "zod";
 import {
   Category,
+  deleteExerciseApiResponse,
   getExerciseApiResponse,
   getExerciseByIdApiResponse,
   Intensity,
@@ -78,4 +79,13 @@ export const updateExerciseResultSchema = z.object({
 
 export function validateUpdateExerciseResult(data: updateExerciseApiResponse) {
   return updateExerciseResultSchema.parse(data);
+}
+
+export const deleteExerciseResultSchema = z.object({
+  status: z.boolean(),
+  message: z.string(),
+});
+
+export function validateDeleteExerciseResult(data: deleteExerciseApiResponse) {
+  return deleteExerciseResultSchema.parse(data);
 }

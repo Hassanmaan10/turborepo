@@ -50,7 +50,6 @@ export default function UserDashboard() {
         toast.success("Exercise deleted successfully ✅");
         await fetchItems(); // refresh list
       } catch (error) {
-        console.error("Delete exercise error:", error);
         toast.error("Something went wrong while deleting the exercise.");
       }
     },

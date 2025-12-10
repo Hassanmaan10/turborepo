@@ -74,3 +74,5 @@ export interface getExerciseByIdApiResponse {
 export interface updateExerciseApiResponse extends createExerciseApiResponse {
   data: Exercise | null;
 }
+
+export interface deleteExerciseApiResponse extends createExerciseApiResponse {}
