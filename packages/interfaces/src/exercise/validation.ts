@@ -4,6 +4,7 @@ import {
   getExerciseApiResponse,
   getExerciseByIdApiResponse,
   Intensity,
+  updateExerciseApiResponse,
 } from "./types";
 
 //exercise shcema
@@ -67,4 +68,14 @@ export function validateGetExerciseByIdResult(
   data: getExerciseByIdApiResponse
 ) {
   return getExerciseByIdResultSchema.parse(data);
+}
+
+export const updateExerciseResultSchema = z.object({
+  status: z.boolean(),
+  message: z.string(),
+  data: exerciseShape.nullable(),
+});
+
+export function validateUpdateExerciseResult(data: updateExerciseApiResponse) {
+  return updateExerciseResultSchema.parse(data);
 }

@@ -2,23 +2,37 @@
 import { revalidatePath } from "next/cache";
 import { put } from "./https";
 import { getServerToken } from "./token-server";
+import {
+  updateExerciseApiResponse,
+  UpdateExercisePayload,
+  validateUpdateExerciseResult,
+} from "@workspace/interfaces/exercise";
 
 export async function updateExercise(
   id: string,
-  payload: any
-): Promise<boolean> {
-  const token = await getServerToken();
-  if (!token) {
-    alert("Please login again");
-    return false;
-  }
-  const res = await put(`/api/exercise/${id}`, payload, { token });
+  payload: UpdateExercisePayload
+): Promise<updateExerciseApiResponse> {
+  try {
+    const token = await getServerToken();
+    if (!token) {
+      throw new Error("Please login again");
+    }
 
-  if (!res.ok) {
-    alert(res.error || "Failed to update exercise");
-    return false;
+    const res = await put(`/api/exercise/${id}`, payload, { token });
+
+    const parsed = validateUpdateExerciseResult(res.data);
+
+    revalidatePath("/exercise");
+    revalidatePath(`/exercise/${id}`);
+    return parsed;
+  } catch (error) {
+    const message =
+      (error as Error).message || "Something went wrong. Please try again.";
+
+    return {
+      status: false,
+      message,
+      data: null,
+    };
   }
-  revalidatePath("/exercise");
-  revalidatePath(`/exercise/${id}`);
-  return true;
 }

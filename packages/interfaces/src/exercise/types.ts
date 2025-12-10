@@ -11,7 +11,10 @@ export interface Exercise {
   image: string;
   youtubeVideo: string;
   targetedMuscles: string[];
+  user?: string;
 }
+
+export type UpdateExercisePayload = Omit<Exercise, "_id">;
 
 export interface ExerciseCardProps extends Exercise {
   onDelete: () => Promise<void> | void;
@@ -65,5 +68,9 @@ export interface getExerciseApiResponse {
 
 export interface getExerciseByIdApiResponse {
   status: boolean;
+  data: Exercise | null;
+}
+
+export interface updateExerciseApiResponse extends createExerciseApiResponse {
   data: Exercise | null;
 }
