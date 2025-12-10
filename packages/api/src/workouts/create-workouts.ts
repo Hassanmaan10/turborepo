@@ -3,19 +3,32 @@
 import { revalidatePath } from "next/cache";
 import { post } from "../https";
 import { getServerToken } from "../token-server";
+import {
+  CreateWorkoutApiResponse,
+  CreateWorkoutPayload,
+  createWorkoutResultSchema,
+} from "@workspace/interfaces/workout";
 
-export async function createWorkouts(payload: any): Promise<boolean> {
-  const token = await getServerToken();
-  if (!token) {
-    alert("Please login again");
-    return false;
-  }
-  const res = await post("/api/workout/create", payload, { token });
+export async function createWorkouts(
+  payload: CreateWorkoutPayload
+): Promise<CreateWorkoutApiResponse> {
+  try {
+    const token = await getServerToken();
+    if (!token) {
+      throw new Error("Please login again");
+    }
+    const res = await post("/api/workout/create", payload, { token });
+    const parsed = createWorkoutResultSchema.parse(res.data);
+    revalidatePath("/workout");
+    return parsed;
+  } catch (error) {
+    const message =
+      (error as Error).message || "Something went wrong. Please try again.";
 
-  if (!res.ok) {
-    alert(res.error || "Failed to create a exercise");
-    return false;
+    return {
+      status: false,
+      message,
+      workout: null,
+    };
   }
-  revalidatePath("/workout");
-  return true;
 }
