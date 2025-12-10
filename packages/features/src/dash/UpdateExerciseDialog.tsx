@@ -19,6 +19,7 @@ import {
   ExerciseFormValues,
   Intensity,
   UpdateExerciseDialogProps,
+  UpdateExercisePayload,
 } from "@workspace/interfaces/exercise";
 
 import { toast } from "@workspace/ui/components/sonner";
@@ -69,7 +70,7 @@ export function UpdateExerciseDialog({
   async function onSubmit(values: ExerciseFormValues) {
     if (!exercise?._id) return;
 
-    const payload: any = {
+    const payload: UpdateExercisePayload = {
       ...values,
       targetedMuscles: csvToArray(values.targetedMuscles),
     };
