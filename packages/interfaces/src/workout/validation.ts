@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { CreateWorkoutApiResponse, WorkoutIntensity } from "./types";
+import {
+  CreateWorkoutApiResponse,
+  GetWorkoutsApiResponse,
+  WorkoutIntensity,
+} from "./types";
 
 //workout schema
 export const workoutFormSchema = z.object({
@@ -30,6 +34,15 @@ export const createWorkoutResultSchema = z.object({
   workout: workoutShape.nullable(),
 });
 
-export function validateCreateExerciseResult(data: CreateWorkoutApiResponse) {
+export function validateCreateWorkoutResult(data: CreateWorkoutApiResponse) {
   return createWorkoutResultSchema.parse(data);
+}
+
+export const getWorkoutsResultSchema = z.object({
+  status: z.boolean(),
+  workouts: z.array(workoutShape),
+});
+
+export function validateGetWorkoutResult(data: GetWorkoutsApiResponse) {
+  return getWorkoutsResultSchema.parse(data);
 }
