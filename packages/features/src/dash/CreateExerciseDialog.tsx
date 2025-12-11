@@ -15,7 +15,7 @@ import { Form } from "@workspace/ui/components/form";
 import FormFieldProps from "@workspace/ui/components/form-field";
 import FormSelectProps from "@workspace/ui/components/form-select";
 import { useState } from "react";
-import { createExercise } from "@workspace/api/create-exercise";
+import { createExercise } from "@workspace/api/exercises/create-exercise";
 import {
   Category,
   exerciseFormSchema,

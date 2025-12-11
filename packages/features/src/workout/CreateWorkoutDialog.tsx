@@ -20,7 +20,7 @@ import { Form } from "@workspace/ui/components/form";
 import FormFieldProps from "@workspace/ui/components/form-field";
 import FormSelectProps from "@workspace/ui/components/form-select";
 import FormTextAreaProps from "@workspace/ui/components/form-textarea";
-import { getExercises } from "@workspace/api/get-exercise";
+import { getExercises } from "@workspace/api/exercises/get-exercise";
 import FormDropDownMenu from "@workspace/ui/components/from-dropdown-menu";
 import { toast } from "@workspace/ui/components/sonner";
 import { WorkoutIntensity } from "@workspace/interfaces/workout";

@@ -1,8 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { post } from "./https";
-import { getServerToken } from "./token-server";
+import { post } from "../https";
+import { getServerToken } from "../token-server";
 import {
   createExerciseApiResponse,
   createExercisePayload,
