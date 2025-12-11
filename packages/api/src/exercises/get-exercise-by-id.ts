@@ -1,6 +1,6 @@
 "use server";
 import { getExerciseByIdApiResponse } from "@workspace/interfaces/exercise/types";
-import { get } from "./https";
+import { get } from "../https";
 import { validateGetExerciseByIdResult } from "@workspace/interfaces/exercise";
 
 export async function getExerciseById(

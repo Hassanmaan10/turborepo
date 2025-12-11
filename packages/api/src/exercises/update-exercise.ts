@@ -1,28 +1,30 @@
 "use server";
-
 import { revalidatePath } from "next/cache";
-import { del } from "./https";
-import { getServerToken } from "./token-server";
-import {
-  deleteExerciseApiResponse,
-  validateDeleteExerciseResult,
-} from "@workspace/interfaces/exercise";
 
-export async function deleteExercise(
-  id: string
-): Promise<deleteExerciseApiResponse> {
+import {
+  updateExerciseApiResponse,
+  UpdateExercisePayload,
+  validateUpdateExerciseResult,
+} from "@workspace/interfaces/exercise";
+import { getServerToken } from "../token-server";
+import { put } from "../https";
+
+export async function updateExercise(
+  id: string,
+  payload: UpdateExercisePayload
+): Promise<updateExerciseApiResponse> {
   try {
     const token = await getServerToken();
     if (!token) {
       throw new Error("Please login again");
     }
 
-    const res = await del(`/api/exercise/${id}`, undefined, { token });
-    const parsed = validateDeleteExerciseResult(res.data);
+    const res = await put(`/api/exercise/${id}`, payload, { token });
+
+    const parsed = validateUpdateExerciseResult(res.data);
 
     revalidatePath("/exercise");
     revalidatePath(`/exercise/${id}`);
-
     return parsed;
   } catch (error) {
     const message =
@@ -31,6 +33,7 @@ export async function deleteExercise(
     return {
       status: false,
       message,
+      data: null,
     };
   }
 }

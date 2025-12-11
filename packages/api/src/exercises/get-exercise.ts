@@ -4,8 +4,8 @@ import {
   getExerciseApiResponse,
   validateGetExerciseResult,
 } from "@workspace/interfaces/exercise";
-import { getServerToken } from "./token-server";
-import { get } from "./https";
+import { getServerToken } from "../token-server";
+import { get } from "../https";
 
 export async function getExercises(): Promise<getExerciseApiResponse> {
   try {
