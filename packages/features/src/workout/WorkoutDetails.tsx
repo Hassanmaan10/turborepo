@@ -13,7 +13,7 @@ export default function WorkoutDetailsCard({
   }
 
   return (
-    <main className="p-4 flex flex-col items-center justify-center min-h-dvh gap-3">
+    <main className="p-4 flex flex-col items-center justify-center gap-7">
       <h1 className="text-2xl font-semibold">Workout details</h1>
       <WorkoutCard
         _id={workout._id}

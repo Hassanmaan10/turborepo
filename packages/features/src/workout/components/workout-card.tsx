@@ -53,7 +53,7 @@ export default function WorkoutCard({
             {showActions && onDelete && (
               <Button
                 type="button"
-                variant="outline"
+                variant="destructive"
                 className="h-8 w-8 rounded-full cursor-pointer"
                 onClick={(e) => {
                   e.preventDefault();
