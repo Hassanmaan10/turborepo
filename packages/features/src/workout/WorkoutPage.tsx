@@ -7,10 +7,12 @@ import CreateWorkoutDialog from "./CreateWorkoutDialog";
 import { Workout } from "@workspace/interfaces/workout";
 import LoadingAuth from "@workspace/ui/components/loading-auth";
 import { toast } from "@workspace/ui/components/sonner";
+import { UpdateWorkoutDialog } from "./UpdateWorkoutDialog";
 
 export default function WorkoutPage() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loading, setLoading] = useState(true);
+  const [editing, setEditing] = useState<Workout | null>(null);
 
   const fetchWorkouts = useCallback(async () => {
     setLoading(true);
@@ -56,10 +58,18 @@ export default function WorkoutPage() {
               exercises={workout.exercises}
               intensity={workout.intensity}
               duration={workout.duration}
+              onEdit={() => setEditing(workout)}
+              showActions
             />
           ))}
         </div>
       )}
+      <UpdateWorkoutDialog
+        workout={editing}
+        open={!!editing}
+        onClose={() => setEditing(null)}
+        onUpdated={fetchWorkouts}
+      />
     </main>
   );
 }
