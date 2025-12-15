@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@workspace/ui/components/button";
 import { Card, CardContent, CardHeader } from "@workspace/ui/components/card";
-import { Clock, Pencil, TrendingUp } from "lucide-react";
+import { Clock, Pencil, Trash2, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import { type WorkoutCard } from "@workspace/interfaces/workout";
 import Link from "next/link";
@@ -15,6 +15,7 @@ export default function WorkoutCard({
   intensity,
   duration,
   onEdit,
+  onDelete,
   showActions = true,
 }: WorkoutCard) {
   return (
@@ -38,7 +39,7 @@ export default function WorkoutCard({
             {showActions && onEdit && (
               <Button
                 variant="outline"
-                className="h-8 w-8 rounded-full bg-white/90"
+                className="h-8 w-8 rounded-full bg-white cursor-pointer"
                 onClick={(e) => {
                   e.preventDefault(); // don't navigate
                   e.stopPropagation(); // don't trigger Link
@@ -46,6 +47,21 @@ export default function WorkoutCard({
                 }}
               >
                 <Pencil className="h-4 w-4" />
+              </Button>
+            )}
+
+            {showActions && onDelete && (
+              <Button
+                type="button"
+                variant="outline"
+                className="h-8 w-8 rounded-full cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onDelete();
+                }}
+              >
+                <Trash2 className="h-4 w-4" />
               </Button>
             )}
           </div>

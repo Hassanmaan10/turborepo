@@ -8,7 +8,7 @@ export interface UpdateWorkoutDialogProps {
 }
 
 export enum WorkoutIntensity {
-  LOW = "low",
+  LOW = "Low",
   MODERATE = "Moderate",
   HIGH = "High",
 }
@@ -26,6 +26,7 @@ export interface Workout {
 export interface WorkoutCard extends Workout {
   showActions?: boolean;
   onEdit?: () => void;
+  onDelete?: () => void;
 }
 
 export interface CreateWorkoutPayload {
@@ -77,4 +78,9 @@ export interface UpdateWorkoutsApiResponse {
   status: boolean;
   message: string;
   workout: Workout | null;
+}
+
+export interface DeleteWorkoutApiResponse {
+  status: boolean;
+  message: string;
 }

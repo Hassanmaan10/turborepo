@@ -5,6 +5,7 @@ import {
   GetWorkoutByIdApiResponse,
   WorkoutIntensity,
   UpdateWorkoutsApiResponse,
+  DeleteWorkoutApiResponse,
 } from "./types";
 
 import { exerciseShape } from "../exercise";
@@ -79,4 +80,13 @@ export const updateWorkoutResultSchema = z.object({
 
 export function validateUpdateWorkoutResult(data: UpdateWorkoutsApiResponse) {
   return updateWorkoutResultSchema.parse(data);
+}
+
+export const deleteWorkoutResultSchema = z.object({
+  status: z.boolean(),
+  message: z.string(),
+});
+
+export function validateDeleteWorkoutResult(data: DeleteWorkoutApiResponse) {
+  return deleteWorkoutResultSchema.parse(data);
 }
