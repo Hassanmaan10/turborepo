@@ -86,7 +86,6 @@ export function UpdateExerciseDialog({
       onUpdated();
       onClose();
     } catch (error) {
-      console.error("Update exercise error:", error);
       toast.error("Something went wrong. Please try again.");
     }
   }

@@ -1,9 +1,9 @@
 "use client";
 import { Button } from "@workspace/ui/components/button";
 import { Card, CardContent, CardHeader } from "@workspace/ui/components/card";
-import { Clock, TrendingUp } from "lucide-react";
+import { Clock, Pencil, TrendingUp } from "lucide-react";
 import Image from "next/image";
-import { Workout } from "@workspace/interfaces/workout";
+import { type WorkoutCard } from "@workspace/interfaces/workout";
 import Link from "next/link";
 
 export default function WorkoutCard({
@@ -14,7 +14,9 @@ export default function WorkoutCard({
   exercises,
   intensity,
   duration,
-}: Workout) {
+  onEdit,
+  showActions = true,
+}: WorkoutCard) {
   return (
     <Link href={`/workout/${_id}`}>
       <Card className="overflow-hidden hover:shadow-lg transition-shadow">
@@ -28,8 +30,24 @@ export default function WorkoutCard({
             className="object-cover"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
-          <div className="absolute top-3 right-3 bg-white rounded-2xl px-2 py-1.5 font-bold">
-            {intensity}
+          {/* Top-right: intensity + edit button */}
+          <div className="absolute top-3 right-3 flex items-center gap-2 z-10">
+            <div className="bg-white rounded-2xl px-2 py-1.5 font-bold text-xs">
+              {intensity}
+            </div>
+            {showActions && onEdit && (
+              <Button
+                variant="outline"
+                className="h-8 w-8 rounded-full bg-white/90"
+                onClick={(e) => {
+                  e.preventDefault(); // don't navigate
+                  e.stopPropagation(); // don't trigger Link
+                  onEdit();
+                }}
+              >
+                <Pencil className="h-4 w-4" />
+              </Button>
+            )}
           </div>
         </div>
 

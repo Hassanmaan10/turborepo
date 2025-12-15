@@ -1,5 +1,12 @@
 import { Exercise } from "../exercise";
 
+export interface UpdateWorkoutDialogProps {
+  workout: Workout | null;
+  open: boolean;
+  onClose: () => void;
+  onUpdated: () => void;
+}
+
 export enum WorkoutIntensity {
   LOW = "low",
   MODERATE = "Moderate",
@@ -14,6 +21,11 @@ export interface Workout {
   image: string;
   intensity: WorkoutIntensity;
   duration: number;
+}
+
+export interface WorkoutCard extends Workout {
+  showActions?: boolean;
+  onEdit?: () => void;
 }
 
 export interface CreateWorkoutPayload {
@@ -50,4 +62,19 @@ export interface WorkoutDetails {
 export interface GetWorkoutByIdApiResponse {
   status: boolean;
   workout: WorkoutDetails | null;
+}
+
+export interface UpdateWorkoutPayload {
+  title: string;
+  description: string;
+  exercises: string[];
+  image: string;
+  intensity: string;
+  duration: number;
+}
+
+export interface UpdateWorkoutsApiResponse {
+  status: boolean;
+  message: string;
+  workout: Workout | null;
 }
