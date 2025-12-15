@@ -8,6 +8,7 @@ import { Workout } from "@workspace/interfaces/workout";
 import LoadingAuth from "@workspace/ui/components/loading-auth";
 import { toast } from "@workspace/ui/components/sonner";
 import { UpdateWorkoutDialog } from "./UpdateWorkoutDialog";
+import { deleteWorkout } from "@workspace/api/workouts/delete-workout";
 
 export default function WorkoutPage() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
@@ -31,6 +32,21 @@ export default function WorkoutPage() {
       setLoading(false);
     }
   }, []);
+
+  const handleDelete = useCallback(
+    async (id: string) => {
+      const res = await deleteWorkout(id);
+
+      if (!res.status) {
+        toast.error(res.message);
+        return;
+      }
+
+      toast.success(res.message);
+      fetchWorkouts(); // refresh list
+    },
+    [fetchWorkouts]
+  );
 
   useEffect(() => {
     fetchWorkouts();
@@ -59,6 +75,7 @@ export default function WorkoutPage() {
               intensity={workout.intensity}
               duration={workout.duration}
               onEdit={() => setEditing(workout)}
+              onDelete={() => handleDelete(workout._id)}
               showActions
             />
           ))}
