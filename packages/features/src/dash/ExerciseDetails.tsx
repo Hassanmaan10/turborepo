@@ -12,7 +12,7 @@ export default function ExerciseDetails({
   }
 
   return (
-    <main className="p-4 flex flex-col items-center justify-center  min-h-dvh gap-3">
+    <main className="p-4 flex flex-col items-center justify-center gap-7">
       <h1 className="text-2xl font-semibold">Exercise details</h1>
       <ExerciseCard
         _id={exercise._id}
